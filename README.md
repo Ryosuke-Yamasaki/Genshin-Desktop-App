@@ -49,74 +49,91 @@
 ||
 ||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|CharacterActionDefinition|||
+|CharacterActionDefinition|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|ActionDefinition|||
+|ActionDefinition|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|WeaponDefinition|||
+|WeaponDefinition|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|ArtifactDefinition|||
+|ArtifactDefinition|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|BuffDefinition|||
+|BuffDefinition|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|StatType|||
+|StatType|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|StatSource|||
+|StatSource|
+|-|
+||
+||
 
 ### 実装クラス
-|クラス名|属性|メソッド|
-|-|-|-|
-|CharacterInstance|||
+|CharacterInstance|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|WeaponInstance|||
+|WeaponInstance|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|ArtifactInstance|||
+|ArtifactInstance|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|BuffInstance|||
+|BuffInstance|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|StatInstance|||
+|StatInstance|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|PartyInstance|||
+|PartyInstance|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|RotationInstance|||
+|RotationInstance|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|DamageCalculator|||
+|DamageCalculator|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|OptimizationEngine|||
+|OptimizationEngine|
+|-|
+||
+||
 
-|クラス名|属性|メソッド|
-|-|-|-|
-|ResultSnapshot|||
+|ResultSnapshot|
+|-|
+||
+||
 
 ## プログラム設計
 
