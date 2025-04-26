@@ -429,10 +429,10 @@ stateDiagram-v2
 | characterAscension | String | ○    | 0-6       | キャラクターの突破段階     |
 | talentLevels       | String | ○    | 1-10      | キャラクターの各天賦レベル |
 | constellation      | String | ○    | 0-6       | キャラクターの命の星座     |
-| weapon             | String | ○    | 0-6       | キャラクターの武器         |
-| weaponLevel        | String | ○    | 0-6       | 武器のレベル               |
+| weapon             | String | ○    |           | キャラクターの武器         |
+| weaponLevel        | String | ○    | 1-90      | 武器のレベル               |
 | weaponAscension    | String | ○    | 0-6       | 武器の突破段階             |
-| refinement         | String | ○    | 0-6       | 精錬ランク                 |
+| refinement         | String | ○    | 1-5       | 精錬ランク                 |
 
 - 出力項目
 
@@ -454,16 +454,41 @@ stateDiagram-v2
 
 - 入力項目
 
-| 項目名 | 型     | 必須 | 制約      | 説明      |
-| ------ | ------ | ---- | --------- | --------- |
-| id     | String | ○    | UUID 形式 | 一意な ID |
+| 項目名     | 型     | 必須 | 制約               | 説明                 |
+| ---------- | ------ | ---- | ------------------ | -------------------- |
+| id         | String | ○    | UUID 形式          | 一意な ID            |
+| name       | String | ○    |                    | パーティ名           |
+| characters | String | ○    | 1-4 人かつ重複不可 | 編成するキャラクター |
+| roles      | String | ○    | 火力枠またはバフ枠 | パーティでの役割     |
 
 - 出力項目
 
-| 項目名  | 型     | 説明                      |
-| ------- | ------ | ------------------------- |
-| status  | String | "success" または "error"  |
-| message | String | status に応じたメッセージ |
+| 項目名     | 型     | 説明                                 |
+| ---------- | ------ | ------------------------------------ |
+| status     | String | "success" または "error"             |
+| message    | String | status に応じたメッセージ            |
+| name       | String | パーティ編成登録内容確認ダイアログ用 |
+| characters | String | パーティ編成登録内容確認ダイアログ用 |
+| roles      | String | パーティ編成登録内容確認ダイアログ用 |
+
+ローテーション登録・編集モジュール
+
+- 入力項目
+
+| 項目名  | 型     | 必須 | 制約      | 説明                       |
+| ------- | ------ | ---- | --------- | -------------------------- |
+| id      | String | ○    | UUID 形式 | 一意な ID                  |
+| party   | String | ○    |           | 選択したパーティ編成       |
+| actions | String | ○    |           | スキルローテーションを記述 |
+
+- 出力項目
+
+| 項目名  | 型     | 説明                                   |
+| ------- | ------ | -------------------------------------- |
+| status  | String | "success" または "error"               |
+| message | String | status に応じたメッセージ              |
+| party   | String | ローテーション登録内容確認ダイアログ用 |
+| actions | String | ローテーション登録内容確認ダイアログ用 |
 
 #### 処理フロー設計
 
