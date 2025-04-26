@@ -512,7 +512,29 @@ stateDiagram-v2
 | character        | String | 最適化内容確認画面用      |
 | enemyLevel       | String | 最適化内容確認画面用      |
 | enemyResistances | String | 最適化内容確認画面用      |
-| artifactIds      | String | 最適化内容確認画面用      |
+| artifacts        | String | 最適化内容確認画面用      |
+
+ダメージ計算結果詳細表示モジュール
+
+- 入力項目
+
+| 項目名   | 型     | 必須 | 制約      | 説明                 |
+| -------- | ------ | ---- | --------- | -------------------- |
+| id       | String | ○    | UUID 形式 | 一意な ID            |
+| rotation | String | ○    |           | ローテーションを選択 |
+
+- 出力項目
+
+| 項目名            | 型     | 説明                           |
+| ----------------- | ------ | ------------------------------ |
+| status            | String | "success" または "error"       |
+| message           | String | status に応じたメッセージ      |
+| enemyLevel        | String | ダメージ計算結果詳細表示画面用 |
+| enemyResistances  | String | ダメージ計算結果詳細表示画面用 |
+| rotation          | String | ダメージ計算結果詳細表示画面用 |
+| totalDamage       | String | ダメージ計算結果詳細表示画面用 |
+| damagePerRotation | String | ダメージ計算結果詳細表示画面用 |
+| timePerRotation   | String | ダメージ計算結果詳細表示画面用 |
 
 #### 処理フロー設計
 
