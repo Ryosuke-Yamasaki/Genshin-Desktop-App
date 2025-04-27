@@ -243,7 +243,7 @@
 
 #### 画面遷移図
 
-- 聖遺物管理システム
+聖遺物管理システム
 
 ```mermaid
 stateDiagram-v2
@@ -270,7 +270,7 @@ stateDiagram-v2
 
 ---
 
-- キャラクターマイセット管理システム
+キャラクターマイセット管理システム
 
 ```mermaid
 stateDiagram-v2
@@ -297,7 +297,7 @@ stateDiagram-v2
 
 ---
 
-- パーティ編成管理システム
+パーティ編成管理システム
 
 ```mermaid
 stateDiagram-v2
@@ -325,7 +325,7 @@ stateDiagram-v2
 
 ---
 
-- ローテーション管理システム
+ローテーション管理システム
 
 ```mermaid
 stateDiagram-v2
@@ -353,7 +353,7 @@ stateDiagram-v2
 
 ---
 
-- 最適聖遺物選定システム
+最適聖遺物選定システム
 
 ```mermaid
 stateDiagram-v2
@@ -367,7 +367,7 @@ stateDiagram-v2
 
 ---
 
-- ダメージ計算結果管理システム
+ダメージ計算結果管理システム
 
 ```mermaid
 stateDiagram-v2
@@ -385,7 +385,7 @@ stateDiagram-v2
 
 ### 内部設計
 
-#### 入出力仕様（型に関してはあとで詰める）
+#### 入出力仕様
 
 聖遺物登録・編集モジュール
 
@@ -540,6 +540,22 @@ stateDiagram-v2
 | totalDamage       | `Double`           | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
 | damagePerRotation | `Double`           | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
 | timePerRotation   | `Double`           | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
+
+ダメージ計算結果比較モジュール
+
+- 入力項目
+
+| 項目名      | 型                 | 必須 | Enum | 制約 | 説明               |
+| ----------- | ------------------ | ---- | ---- | ---- | ------------------ |
+| simulations | `List<Simulation>` | ✅   | ⬜   |      | 比較するものを選択 |
+
+- 出力項目
+
+| 項目名      | 型                 | 必須 | Enum | 制約                     | 説明                           |
+| ----------- | ------------------ | ---- | ---- | ------------------------ | ------------------------------ |
+| status      | `StatusType`       | ✅   | ✅   | `success` または `error` | 処理結果のステータス           |
+| message     | `String`           | ✅   | ⬜   |                          | status に応じたメッセージ      |
+| simulations | `List<Simulation>` | ✅   | ⬜   |                          | ダメージ計算結果詳細比較画面用 |
 
 #### 処理フロー設計
 
