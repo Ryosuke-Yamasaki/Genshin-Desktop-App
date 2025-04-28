@@ -858,128 +858,135 @@ $$
 
 #### データ設計
 
-##### データ項目一覧
+##### メモ
 
-- Character
-- Resistance
-- Artifact
-- Party
-  - name
-  - CharacterMySet
-  - Role
-  -
-- Rotation
-  - Party
-  - Action
-  - tpr
-- simulation
-  - Rotation
-  - CharacterMySet
-  - Artifact
-  - Enemy
-  - dpr
-  - tpr
+- バフの取り扱いに関して、マスターデータで保存する
+- バフの stat は一つの武器や固有天賦から複数あることがある
+- 以下がバフに関する確定事項
+
+| 項目         | 内容                 | 必須？ |
+| :----------- | :------------------- | :----- |
+| バフ ID      | 一意の ID            | 必須   |
+| バフ名       | 表示名               | 必須   |
+| 効果対象     | 攻撃力、会心率など   | 必須   |
+| 効果量       | 数値または倍率       | 必須   |
+| 持続条件     | 常時/特定条件        | 必須   |
+| 発動トリガー | 発動する条件         | 必須   |
+| 重複可否     | 重ね掛けできるか     | 必須   |
+| 発生源       | どこからのものなのか | 必須   |
+
+##### データ項目一覧
 
 #### 画面に関するメモ
 
 - ホーム画面は各システムへのくそデカボタンを配置する
 - 聖遺物のインポート中やダメージ計算中には進行状況がわかるようにしたい
 
-### クラス
+#### クラス設計
 
-#### 設計図クラス
+1. 入力によって作成されたデータを保持するクラス（属性に関しては、バリデーションチェックをするための検証用データを扱う）
+2. データのバリデーションを処理するクラス
+3. データの CURD 操作を処理するクラス
+4. 2,3 の処理を実行させ、エラーハンドリングを処理するクラス
+5. UI を表示させたりフォームのデータを 4 に渡すクラス
 
-| CharacterDefinition |
-| ------------------- |
-|                     |
-|                     |
+##### クラス一覧
 
-| CharacterActionDefinition |
-| ------------------------- |
-|                           |
-|                           |
+聖遺物管理システム
 
-| ActionDefinition |
-| ---------------- |
-|                  |
-|                  |
+| クラス名             | 内容                                                                           |
+| -------------------- | ------------------------------------------------------------------------------ |
+| Artifact             | 聖遺物 1 個の情報（メインステータス、サブステータスなど）                      |
+| ArtifactInventory    | 保有している聖遺物の一覧管理（登録・編集・削除）                               |
+| ArtifactFilter       | 聖遺物検索・フィルタ条件の設定（例：攻撃力付きのみ、セット効果指定など）       |
+| ArtifactSorter       | 聖遺物の並び替え処理（例：攻撃力順、会心ダメージ順）                           |
+| ArtifactSelector     | フィルタ・ソート条件に基づき、聖遺物を選択する処理                             |
+| ArtifactValidator    | 聖遺物データの入力チェックや整合性チェック                                     |
+| ArtifactRepository   | 聖遺物データの保存・読み込み処理（ファイル、データベースなど）                 |
+| ArtifactDetailViewer | 聖遺物個別詳細を表示するためのクラス（UI 用）                                  |
+| ArtifactListViewer   | 聖遺物一覧を表示するためのクラス（UI 用）                                      |
+| ArtifactEditor       | 聖遺物の情報を編集するためのクラス（UI 用）                                    |
+| ArtifactImporter     | 外部データ（例：スクリーンショット解析結果など）から聖遺物をインポートする処理 |
+| ArtifactExporter     | 聖遺物データを外部ファイルにエクスポートする処理                               |
+| ArtifactManager      | ArtifactInventory・ArtifactFilter・ArtifactSorter などを統括して操作するクラス |
+| ArtifactConstants    | 聖遺物に関する定数管理（例：部位名、メインステータスの種類など）               |
 
-| WeaponDefinition |
-| ---------------- |
-|                  |
-|                  |
+キャラクターマイセット管理システム
 
-| ArtifactDefinition |
-| ------------------ |
-|                    |
-|                    |
+| クラス名                   | 内容                                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------------------ |
+| Character                  | キャラクター 1 体の情報（レベル、天賦、命ノ星座、装備中の武器・聖遺物など）                      |
+| Weapon                     | 武器の情報（名前、基礎攻撃力、サブステータス、精錬ランクなど）                                   |
+| ArtifactPiece              | 聖遺物 1 部位の情報（花、羽、時計、杯、冠それぞれの個別聖遺物）                                  |
+| CharacterMySet             | キャラクターのマイセット情報（キャラ＋武器＋聖遺物セットをまとめたもの）                         |
+| CharacterMySetInventory    | 登録されたキャラクターマイセットの一覧管理（登録・編集・削除）                                   |
+| CharacterMySetFilter       | マイセット検索・フィルタ条件の設定（例：キャラ名指定、武器種別指定など）                         |
+| CharacterMySetSorter       | マイセットの並び替え処理（例：キャラクター名順、登録日時順など）                                 |
+| CharacterMySetSelector     | フィルタ・ソート条件に基づき、マイセットを選択する処理                                           |
+| CharacterMySetValidator    | マイセットデータの入力チェックや整合性チェック                                                   |
+| CharacterMySetRepository   | マイセットデータの保存・読み込み処理（ファイル、データベースなど）                               |
+| CharacterMySetDetailViewer | マイセット個別詳細を表示するためのクラス（UI 用）                                                |
+| CharacterMySetListViewer   | マイセット一覧を表示するためのクラス（UI 用）                                                    |
+| CharacterMySetEditor       | マイセット情報を作成・編集するためのクラス（UI 用）                                              |
+| CharacterMySetImporter     | 外部データ（例：ビルドシェア機能など）からマイセットをインポートする処理                         |
+| CharacterMySetExporter     | マイセットデータを外部ファイルにエクスポートする処理                                             |
+| CharacterMySetManager      | CharacterMySetInventory・CharacterMySetFilter・CharacterMySetSorter などを統括して操作するクラス |
+| CharacterConstants         | キャラクター関連の定数管理（例：キャラ名リスト、武器種リスト、レベル上限値など）                 |
 
-| BuffDefinition |
-| -------------- |
-|                |
-|                |
+パーティ編成管理システム
 
-| StatType |
-| -------- |
-|          |
-|          |
+| クラス名          | 内容                                                                     |
+| ----------------- | ------------------------------------------------------------------------ |
+| Party             | 1 つのパーティ編成情報（キャラクターのリスト、パーティ名など）           |
+| PartyInventory    | 作成されたパーティ一覧の管理（登録・編集・削除）                         |
+| PartyFilter       | パーティ検索・フィルタ条件設定（例：特定キャラが含まれるパーティだけ）   |
+| PartySorter       | パーティの並び替え処理（例：作成日時順、名前順）                         |
+| PartySelector     | フィルタ・ソート条件に基づき、パーティを選択する処理                     |
+| PartyValidator    | パーティデータの入力チェックや整合性チェック（例：同キャラ重複チェック） |
+| PartyRepository   | パーティデータの保存・読み込み処理（ファイル、データベースなど）         |
+| PartyDetailViewer | パーティ個別詳細を表示するクラス（UI 用）                                |
+| PartyListViewer   | パーティ一覧を表示するクラス（UI 用）                                    |
+| PartyEditor       | パーティの作成・編集を行うクラス（UI 用）                                |
+| PartyManager      | PartyInventory・PartyFilter・PartySorter などを統括して操作するクラス    |
+| PartyConstants    | パーティに関する定数管理（例：最大編成人数（4 人）など）                 |
 
-| StatSource |
-| ---------- |
-|            |
-|            |
+ローテーション管理システム
 
-#### 実装クラス
+| クラス名               | 内容                                                                                   |
+| ---------------------- | -------------------------------------------------------------------------------------- |
+| Rotation               | 1 つのローテーション（パーティとアクション順序のセット）                               |
+| RotationInventory      | 登録されているローテーション一覧の管理（登録・編集・削除）                             |
+| RotationAction         | ローテーション内の単一アクション（誰が、何をするか）を表現するクラス                   |
+| RotationValidator      | ローテーションデータの入力チェック（例：アクションの対象キャラがパーティに存在するか） |
+| RotationFilter         | ローテーション検索・フィルタ条件設定（例：特定キャラを含むローテーションのみ）         |
+| RotationSorter         | ローテーションの並び替え処理（例：作成日時順、使用キャラ順）                           |
+| RotationRepository     | ローテーションデータの保存・読み込み処理（ファイル、データベースなど）                 |
+| RotationDetailViewer   | ローテーションの詳細（パーティ・アクションリスト）を表示するクラス（UI 用）            |
+| RotationListViewer     | ローテーション一覧を表示するクラス（UI 用）                                            |
+| RotationEditor         | ローテーションを作成・編集するクラス（UI 用）                                          |
+| RotationManager        | RotationInventory・RotationFilter・RotationSorter などを統括して操作するクラス         |
+| RotationConstants      | ローテーションに関する定数管理（例：最大アクション数上限など）                         |
+| RotationExecutionState | ローテーション進行中の状態管理（累積経過時間、次アクション待ち時間など）               |
 
-| CharacterInstance |
-| ----------------- |
-|                   |
-|                   |
+最適聖遺物選定システム
 
-| WeaponInstance |
-| -------------- |
-|                |
-|                |
-
-| ArtifactInstance |
-| ---------------- |
-|                  |
-|                  |
-
-| BuffInstance |
-| ------------ |
-|              |
-|              |
-
-| StatInstance |
-| ------------ |
-|              |
-|              |
-
-| PartyInstance |
-| ------------- |
-|               |
-|               |
-
-| RotationInstance |
-| ---------------- |
-|                  |
-|                  |
-
-| DamageCalculator |
-| ---------------- |
-|                  |
-|                  |
-
-| OptimizationEngine |
-| ------------------ |
-|                    |
-|                    |
-
-| ResultSnapshot |
-| -------------- |
-|                |
-|                |
+| クラス名                  | 内容                                                                            |
+| ------------------------- | ------------------------------------------------------------------------------- |
+| Optimizer                 | 最適聖遺物選定処理のメイン制御クラス                                            |
+| OptimizerTargetSetting    | 最適化対象（パーティ、キャラ、敵設定など）の条件設定クラス                      |
+| OptimizerResult           | 最適化結果（各キャラに選ばれた聖遺物セット＋ダメージ計算結果）のデータクラス    |
+| OptimizerResultList       | 最適化結果の一覧管理クラス（複数結果の比較・削除・保存など）                    |
+| OptimizerResultComparator | 最適化結果同士を比較するクラス（例：総ダメージ順、特定キャラダメージ重視）      |
+| OptimizerValidator        | 最適化設定内容や処理時パラメータの整合性チェック                                |
+| OptimizerRepository       | 最適化結果・設定の保存・読み込み処理（ファイル、データベースなど）              |
+| OptimizerDetailViewer     | 最適化結果（キャラごとの選定聖遺物・ダメージ）を詳細表示するクラス（UI 用）     |
+| OptimizerListViewer       | 最適化結果の一覧を表示するクラス（UI 用）                                       |
+| OptimizerProgressViewer   | 最適化処理中の進捗率・残り時間などを表示するクラス（UI 用）                     |
+| OptimizerConstants        | 最適化処理に関する定数管理（例：最大候補数、探索打ち切り条件など）              |
+| DamageCalculator          | 聖遺物・キャラ・武器・天賦・バフ効果を考慮したダメージ計算を行うクラス          |
+| ReactionCalculator        | 元素反応（蒸発・溶解・超激化・草激化など）のダメージ倍率適用計算を行うクラス    |
+| RotationSimulator         | ローテーションに沿って、各アクションごとのダメージをシミュレートするクラス      |
+| RotationSimulatorState    | シミュレーション中の現在状態（経過時間・アクション Index など）を管理するクラス |
 
 ## テーブルテンプレート
 
