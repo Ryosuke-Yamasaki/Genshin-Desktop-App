@@ -558,22 +558,23 @@ stateDiagram-v2
 
 - 入力項目
 
-| 項目名     | 型                | 必須 | Enum | 制約               | 説明                 |
-| ---------- | ----------------- | ---- | ---- | ------------------ | -------------------- |
-| id         | `UUID`            | ✅   | ⬜   |                    | 一意な ID            |
-| name       | `String`          | ✅   | ⬜   |                    | パーティ名           |
-| characters | `List<Character>` | ✅   | ⬜   | 1-4 人かつ重複不可 | 編成するキャラクター |
-| roles      | `List<Role>`      | ✅   | ✅   | 火力枠またはバフ枠 | パーティでの役割     |
+| 項目名     | 型                     | 必須 | Enum | 制約               | 説明                 |
+| ---------- | ---------------------- | ---- | ---- | ------------------ | -------------------- |
+| id         | `UUID`                 | ✅   | ⬜   |                    | 一意な ID            |
+| name       | `String`               | ✅   | ⬜   |                    | パーティ名           |
+| characters | `List<CharacterMySet>` | ✅   | ⬜   | 1-4 人かつ重複不可 | 編成するキャラクター |
+| roles      | `List<Role>`           | ✅   | ✅   | 火力枠またはバフ枠 | パーティでの役割     |
 
 - 出力項目
 
-| 項目名     | 型                | 必須 | Enum | 制約                     | 説明                                 |
-| ---------- | ----------------- | ---- | ---- | ------------------------ | ------------------------------------ |
-| status     | `StatusType`      | ✅   | ✅   | `success` または `error` | 処理結果のステータス                 |
-| message    | `String`          | ✅   | ⬜   |                          | status に応じたメッセージ            |
-| name       | `String`          | ⬜   | ⬜   |                          | パーティ編成登録内容確認ダイアログ用 |
-| characters | `List<Character>` | ⬜   | ⬜   |                          | パーティ編成登録内容確認ダイアログ用 |
-| roles      | `List<Role>`      | ⬜   | ✅   |                          | パーティ編成登録内容確認ダイアログ用 |
+| 項目名             | 型                         | 必須 | Enum | 制約                     | 説明                                 |
+| ------------------ | -------------------------- | ---- | ---- | ------------------------ | ------------------------------------ |
+| status             | `StatusType`               | ✅   | ✅   | `success` または `error` | 処理結果のステータス                 |
+| message            | `String`                   | ✅   | ⬜   |                          | status に応じたメッセージ            |
+| name               | `String`                   | ⬜   | ⬜   |                          | パーティ編成登録内容確認ダイアログ用 |
+| characters         | `List<CharacterMySet>`     | ⬜   | ⬜   |                          | パーティ編成登録内容確認ダイアログ用 |
+| roles              | `List<Role>`               | ⬜   | ✅   |                          | パーティ編成登録内容確認ダイアログ用 |
+| elementalResonance | `List<ElementalResonance>` | ⬜   | ✅   |                          | パーティ編成登録内容確認ダイアログ用 |
 
 ローテーション登録・編集モジュール
 
@@ -854,6 +855,30 @@ $$
 $$
 
 ---
+
+#### データ設計
+
+##### データ項目一覧
+
+- Character
+- Resistance
+- Artifact
+- Party
+  - name
+  - CharacterMySet
+  - Role
+  -
+- Rotation
+  - Party
+  - Action
+  - tpr
+- simulation
+  - Rotation
+  - CharacterMySet
+  - Artifact
+  - Enemy
+  - dpr
+  - tpr
 
 #### 画面に関するメモ
 
