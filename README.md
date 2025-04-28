@@ -988,6 +988,135 @@ $$
 | RotationSimulator         | ローテーションに沿って、各アクションごとのダメージをシミュレートするクラス      |
 | RotationSimulatorState    | シミュレーション中の現在状態（経過時間・アクション Index など）を管理するクラス |
 
+<!-- ここからやる。プロパティから考え直す -->
+
+##### プロパティ・メソッド設計
+
+Artifact:聖遺物 1 個の基本情報を保持する
+
+プロパティ
+
+- id: `String`（一意の ID）
+- name: `String`（聖遺物名）
+- setName: `String`（セット効果名）
+- pieceType: `String`（部位：花、羽、時計、杯、冠）
+- mainStatType: `String`（メインステータス種別）
+- mainStatValue: `double`（メインステータス数値）
+- subStats: `List<SubStat>`（サブステータスリスト）
+
+メソッド
+
+- getEffectiveScore(): `double`（有効サブオプションスコアを計算する）
+- isValid(): `boolean`（データ整合性チェック）
+
+ArtifactInventory:聖遺物の一覧管理（登録・編集・削除）
+
+プロパティ
+
+- artifacts: `List<Artifact>`
+
+メソッド
+
+- addArtifact(`Artifact` artifact)
+- removeArtifact(`String` artifactId)
+- updateArtifact(`Artifact` artifact)
+- getArtifact(`String` artifactId): `Artifact`
+- listArtifacts(): `List<Artifact>`
+
+ArtifactFilter:検索・フィルタ条件の設定
+
+プロパティ
+
+- pieceTypes: `List<`String`>`（部位フィルタ）
+- setNames: `List<`String`>`（セット効果フィルタ）
+- statConditions: Map<`String`, `double`>`（ステータス条件）
+
+メソッド
+
+- apply(`List<Artifact>` artifacts): `List<Artifact>`（フィルタ適用）
+
+ArtifactSorter:ソート処理
+
+プロパティ
+
+- sortKey: `String`（例：攻撃力、会心率など）
+- ascending: `boolean`（昇順／降順）
+
+メソッド
+
+- sort(`List<Artifact>` artifacts): `List<Artifact>`
+
+ArtifactSelector:フィルタ＋ソート後の聖遺物選択
+
+メソッド
+
+- select(`List<Artifact>` artifacts, ArtifactFilter filter, ArtifactSorter sorter): `List<Artifact>`
+
+ArtifactValidator:入力チェック・整合性検証
+
+メソッド
+
+- validate(`Artifact` artifact): ValidationResult
+
+ArtifactRepository:保存・読み込み処理
+
+メソッド
+
+- save(`List<Artifact>` artifacts)
+- load(): `List<Artifact>`
+
+ArtifactDetailViewer:個別詳細表示（UI 用）
+
+メソッド
+
+- displayDetail(`Artifact` artifact)
+
+ArtifactListViewer:一覧表示（UI 用）
+
+メソッド
+
+- displayList(`List<Artifact>` artifacts)
+
+ArtifactEditor:編集画面管理（UI 用）
+
+メソッド
+
+- editArtifact(`Artifact` artifact)
+- createNewArtifact(): `Artifact`
+
+ArtifactImporter:外部データインポート処理
+
+メソッド
+
+- importFromExternalSource(): `List<Artifact>`
+
+ArtifactExporter:外部エクスポート処理
+
+メソッド
+
+- exportToFile(`List<Artifact>` artifacts)
+
+ArtifactManager:各 `Artifact` 系クラスの統括管理
+
+プロパティ
+
+- inventory: `ArtifactInventory`
+- filter: `ArtifactFilter`
+- sorter: `ArtifactSorter`
+
+メソッド
+
+- searchArtifacts(ArtifactFilter filter, ArtifactSorter sorter): `List<Artifact>`
+- manageArtifact(`Artifact` artifact)
+
+ArtifactConstants:聖遺物に関する定数管理
+
+プロパティ
+
+- PIECE_TYPES: `List<String>`
+- MAIN_STAT_TYPES: `List<String>`
+- SUB_STAT_TYPES: `List<String>`
+
 ## テーブルテンプレート
 
 |     |     |     |
