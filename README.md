@@ -856,6 +856,14 @@ $$
 
 ---
 
+| 部位 | メインオプション                                                                        |
+| ---- | --------------------------------------------------------------------------------------- |
+| 花   | HP 実数                                                                                 |
+| 羽   | 攻撃力実数                                                                              |
+| 砂   | HP%</br>攻撃力%</br>防御力%</br>元素熟知</br>元素チャージ効率                           |
+| 杯   | HP%</br>攻撃力%</br>防御力%</br>元素熟知</br>各元素のダメージバフ（8 種類）             |
+| 冠   | HP%</br>攻撃力%</br>防御力%</br>元素熟知</br>会心率</br>会心ダメージ</br>与える治癒効果 |
+
 #### データ設計
 
 ##### メモ
@@ -998,53 +1006,66 @@ $$
 
 プロパティ
 
-- `id` : `UUID`（一意な ID）
-- `set` : `ArtifactSet`（セット名）
-- `type` : `ArtifactType`（部位）
-- `mainStat` : `Stat`（メインステータス）
-- `subStats` : `List<Stat>`（サブステータス、4 個かつ重複禁止）
-- `rarity` : `int`（レアリティ：例 5★ など）
-- `level` : `int`（聖遺物レベル）
-- `score` : `double`（会心スコア）
+| プロパティ名 | 型             | 説明                             |
+| ------------ | -------------- | -------------------------------- |
+| id           | `UUID`         | 一意な ID                        |
+| set          | `ArtifactSet`  | セット名                         |
+| type         | `ArtifactType` | 部位                             |
+| mainStat     | `Stat`         | メインステータス                 |
+| subStats     | `List<Stat>`   | サブステータス、4 個かつ重複禁止 |
+| rarity       | `int`          | レアリティ：例 5★ など           |
+| level        | `int`          | 聖遺物レベル                     |
+| score        | `double`       | 会心スコア                       |
 
 メソッド
 
-- `validate()` : `ValidationResult`（各プロパティの必須チェック、制約チェックを行う）
-- `calculateScore()` : `double`（ `subStats` から会心スコアを再計算し、 `score` プロパティを更新）
-- `canEquipTo(Character character)` : `boolean`（この聖遺物を特定キャラに装備可能か判定するロジック ※必要に応じて）
-- `copy()` : `Artifact`（この `Artifact` のディープコピーを作成する）
-- `equals(Object obj)` : `boolean`（ `id` をもとに同一性比較を行う）
-- `toString()` : `String`（デバッグ・ログ用にプロパティ内容を文字列化）
+| メソッド名                      | 型                 | 説明                                                             |
+| ------------------------------- | ------------------ | ---------------------------------------------------------------- |
+| validate()                      | `ValidationResult` | 各プロパティの必須チェック、制約チェックを行う                   |
+| calculateScore()                | `double`           | `subStats` から会心スコアを再計算し、 `score` プロパティを更新   |
+| canEquipTo(Character character) | `boolean`          | この聖遺物を特定キャラに装備可能か判定するロジック ※必要に応じて |
+| copy()                          | `Artifact`         | この `Artifact` のディープコピーを作成する                       |
+| equals(Object obj)              | `boolean`          | `id` をもとに同一性比較を行う                                    |
+| toString()                      | `String`           | デバッグ・ログ用にプロパティ内容を文字列化                       |
 
 **ValidationResult**: バリデーションの結果を保持する
 
 プロパティ
 
-- `isValid` : `boolean`（バリデーション成功かどうか）
-- `errors` : `List<String>`（バリデーションエラーのメッセージ一覧）
+| プロパティ名 | 型             | 説明                                 |
+| ------------ | -------------- | ------------------------------------ |
+| isValid      | `boolean`      | バリデーション成功かどうか           |
+| errors       | `List<String>` | バリデーションエラーのメッセージ一覧 |
 
 メソッド
 
-- `addError(String errorMessage)` : `void`（エラーメッセージを追加する）
-- `hasErrors()` : `boolean`（エラーが 1 件以上あるかを判定する）
-- `merge(ValidationResult other)` : `void`（別の `ValidationResult` の内容を統合する）
-- `toString()` : `String`（エラー内容をまとめた文字列に変換する）
+| メソッド名                    | 型        | 説明                                     |
+| ----------------------------- | --------- | ---------------------------------------- |
+| addError(String errorMessage) | `void`    | エラーメッセージを追加する               |
+| hasErrors()                   | `boolean` | エラーが 1 件以上あるかを判定する        |
+| merge(ValidationResult other) | `void`    | 別の `ValidationResult` の内容を統合する |
+| toString()                    | `String`  | エラー内容をまとめた文字列に変換する     |
 
 **Stat**: ステータス 1 項目の種類と数値を保持する
 
 プロパティ
 
-- `prop` : `StatType`（ステータスの種類。例：攻撃力%、会心率、HP 固定値など）
-- `param` : `double`（ステータスの数値。％か固定値かは prop によって解釈）
+| プロパティ名 | 型         | 説明                                                 |
+| ------------ | ---------- | ---------------------------------------------------- |
+| prop         | `StatProp` | ステータスの種類。例：攻撃力%、会心率、HP 固定値など |
+| param        | `double`   | ステータスの数値。％か固定値かは prop によって解釈   |
+| isPercent    | `boolean`  | パーセンテージか実数かの判定フラグ                   |
 
 メソッド
 
-- `isPercentage()` : `boolean`（このステータスがパーセンテージ型かどうかを判定する）
-- `validate()` : `ValidationResult`（prop と param の整合性チェックを行う）
-- `add(Stat other)` : `Stat`（同じ prop 同士で数値を加算する。prop 不一致の場合は例外）
-- `copy()` : `Stat`（この Stat のディープコピーを作成する）
-- `equals(Object obj)` : `boolean`（prop と param の両方が一致しているか比較する）
-- `toString()` : `String`（デバッグ・ログ用に内容を文字列化する）
+| メソッド名         | 型                 | 説明                                                        |
+| ------------------ | ------------------ | ----------------------------------------------------------- |
+| isPercentage()     | `boolean`          | このステータスがパーセンテージ型かどうかを判定する          |
+| validate()         | `ValidationResult` | `prop` と `param` の整合性チェックを行う                    |
+| add(Stat other)    | `Stat`             | 同じ `prop` 同士で数値を加算する。`prop` 不一致の場合は例外 |
+| copy()             | `Stat`             | この Stat のディープコピーを作成する                        |
+| equals(Object obj) | `boolean`          | `prop` と `param` の両方が一致しているか比較する            |
+| toString()         | `String`           | デバッグ・ログ用に内容を文字列化する                        |
 
 **ArtifactInventory**:聖遺物の一覧管理（登録・編集・削除）
 
@@ -1153,6 +1174,17 @@ $$
 - PIECE_TYPES: `List<String>`
 - MAIN_STAT_TYPES: `List<String>`
 - SUB_STAT_TYPES: `List<String>`
+
+**Buff**:バフに関する
+
+プロパティ
+
+| プロパティ名  | 型           | 説明                   |
+| ------------- | ------------ | ---------------------- |
+| stat          | `Stat`       | バフするステータス情報 |
+| origin        | `BuffOrigin` | 発生源                 |
+| sourceId      | `UUID`       | バフ元キャラ           |
+| durationFrame | `int`        | 継続時間               |
 
 ## テーブルテンプレート
 
