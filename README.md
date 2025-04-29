@@ -992,24 +992,61 @@ $$
 
 ##### プロパティ・メソッド設計
 
-Artifact:聖遺物 1 個の基本情報を保持する
+聖遺物管理システム
+
+**Artifact**:聖遺物 1 個の基本情報を保持する
 
 プロパティ
 
-- id: `String`（一意の ID）
-- name: `String`（聖遺物名）
-- setName: `String`（セット効果名）
-- pieceType: `String`（部位：花、羽、時計、杯、冠）
-- mainStatType: `String`（メインステータス種別）
-- mainStatValue: `double`（メインステータス数値）
-- subStats: `List<SubStat>`（サブステータスリスト）
+- `id` : `UUID`（一意な ID）
+- `set` : `ArtifactSet`（セット名）
+- `type` : `ArtifactType`（部位）
+- `mainStat` : `Stat`（メインステータス）
+- `subStats` : `List<Stat>`（サブステータス、4 個かつ重複禁止）
+- `rarity` : `int`（レアリティ：例 5★ など）
+- `level` : `int`（聖遺物レベル）
+- `score` : `double`（会心スコア）
 
 メソッド
 
-- getEffectiveScore(): `double`（有効サブオプションスコアを計算する）
-- isValid(): `boolean`（データ整合性チェック）
+- `validate()` : `ValidationResult`（各プロパティの必須チェック、制約チェックを行う）
+- `calculateScore()` : `double`（ `subStats` から会心スコアを再計算し、 `score` プロパティを更新）
+- `canEquipTo(Character character)` : `boolean`（この聖遺物を特定キャラに装備可能か判定するロジック ※必要に応じて）
+- `copy()` : `Artifact`（この `Artifact` のディープコピーを作成する）
+- `equals(Object obj)` : `boolean`（ `id` をもとに同一性比較を行う）
+- `toString()` : `String`（デバッグ・ログ用にプロパティ内容を文字列化）
 
-ArtifactInventory:聖遺物の一覧管理（登録・編集・削除）
+**ValidationResult**: バリデーションの結果を保持する
+
+プロパティ
+
+- `isValid` : `boolean`（バリデーション成功かどうか）
+- `errors` : `List<String>`（バリデーションエラーのメッセージ一覧）
+
+メソッド
+
+- `addError(String errorMessage)` : `void`（エラーメッセージを追加する）
+- `hasErrors()` : `boolean`（エラーが 1 件以上あるかを判定する）
+- `merge(ValidationResult other)` : `void`（別の `ValidationResult` の内容を統合する）
+- `toString()` : `String`（エラー内容をまとめた文字列に変換する）
+
+**Stat**: ステータス 1 項目の種類と数値を保持する
+
+プロパティ
+
+- `prop` : `StatType`（ステータスの種類。例：攻撃力%、会心率、HP 固定値など）
+- `param` : `double`（ステータスの数値。％か固定値かは prop によって解釈）
+
+メソッド
+
+- `isPercentage()` : `boolean`（このステータスがパーセンテージ型かどうかを判定する）
+- `validate()` : `ValidationResult`（prop と param の整合性チェックを行う）
+- `add(Stat other)` : `Stat`（同じ prop 同士で数値を加算する。prop 不一致の場合は例外）
+- `copy()` : `Stat`（この Stat のディープコピーを作成する）
+- `equals(Object obj)` : `boolean`（prop と param の両方が一致しているか比較する）
+- `toString()` : `String`（デバッグ・ログ用に内容を文字列化する）
+
+**ArtifactInventory**:聖遺物の一覧管理（登録・編集・削除）
 
 プロパティ
 
@@ -1023,19 +1060,19 @@ ArtifactInventory:聖遺物の一覧管理（登録・編集・削除）
 - getArtifact(`String` artifactId): `Artifact`
 - listArtifacts(): `List<Artifact>`
 
-ArtifactFilter:検索・フィルタ条件の設定
+**ArtifactFilter**:検索・フィルタ条件の設定
 
 プロパティ
 
-- pieceTypes: `List<`String`>`（部位フィルタ）
-- setNames: `List<`String`>`（セット効果フィルタ）
-- statConditions: Map<`String`, `double`>`（ステータス条件）
+- pieceTypes: `List<String>`（部位フィルタ）
+- setNames: `List<String>`（セット効果フィルタ）
+- statConditions: `Map<String,double>`（ステータス条件）
 
 メソッド
 
 - apply(`List<Artifact>` artifacts): `List<Artifact>`（フィルタ適用）
 
-ArtifactSorter:ソート処理
+**ArtifactSorter**:ソート処理
 
 プロパティ
 
@@ -1046,57 +1083,57 @@ ArtifactSorter:ソート処理
 
 - sort(`List<Artifact>` artifacts): `List<Artifact>`
 
-ArtifactSelector:フィルタ＋ソート後の聖遺物選択
+**ArtifactSelector**:フィルタ＋ソート後の聖遺物選択
 
 メソッド
 
-- select(`List<Artifact>` artifacts, ArtifactFilter filter, ArtifactSorter sorter): `List<Artifact>`
+- select(`List<Artifact>` artifacts, `ArtifactFilter` filter, `ArtifactSorter` sorter): `List<Artifact>`
 
-ArtifactValidator:入力チェック・整合性検証
+**ArtifactValidator**:入力チェック・整合性検証
 
 メソッド
 
-- validate(`Artifact` artifact): ValidationResult
+- validate(`Artifact` artifact): `ValidationResult`
 
-ArtifactRepository:保存・読み込み処理
+**ArtifactRepository**:保存・読み込み処理
 
 メソッド
 
 - save(`List<Artifact>` artifacts)
 - load(): `List<Artifact>`
 
-ArtifactDetailViewer:個別詳細表示（UI 用）
+**ArtifactDetailViewer**:個別詳細表示（UI 用）
 
 メソッド
 
 - displayDetail(`Artifact` artifact)
 
-ArtifactListViewer:一覧表示（UI 用）
+**ArtifactListViewer**:一覧表示（UI 用）
 
 メソッド
 
 - displayList(`List<Artifact>` artifacts)
 
-ArtifactEditor:編集画面管理（UI 用）
+**ArtifactEditor**:編集画面管理（UI 用）
 
 メソッド
 
 - editArtifact(`Artifact` artifact)
 - createNewArtifact(): `Artifact`
 
-ArtifactImporter:外部データインポート処理
+**ArtifactImporter**:外部データインポート処理
 
 メソッド
 
 - importFromExternalSource(): `List<Artifact>`
 
-ArtifactExporter:外部エクスポート処理
+**ArtifactExporter**:外部エクスポート処理
 
 メソッド
 
 - exportToFile(`List<Artifact>` artifacts)
 
-ArtifactManager:各 `Artifact` 系クラスの統括管理
+**ArtifactManager**:各 `Artifact` 系クラスの統括管理
 
 プロパティ
 
@@ -1109,7 +1146,7 @@ ArtifactManager:各 `Artifact` 系クラスの統括管理
 - searchArtifacts(ArtifactFilter filter, ArtifactSorter sorter): `List<Artifact>`
 - manageArtifact(`Artifact` artifact)
 
-ArtifactConstants:聖遺物に関する定数管理
+**ArtifactConstants**:聖遺物に関する定数管理
 
 プロパティ
 
