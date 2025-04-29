@@ -1019,7 +1019,7 @@ $$
 
 メソッド
 
-| メソッド名                      | 型                 | 説明                                                             |
+| メソッド名                      | 戻り値の型         | 説明                                                             |
 | ------------------------------- | ------------------ | ---------------------------------------------------------------- |
 | validate()                      | `ValidationResult` | 各プロパティの必須チェック、制約チェックを行う                   |
 | calculateScore()                | `double`           | `subStats` から会心スコアを再計算し、 `score` プロパティを更新   |
@@ -1039,12 +1039,12 @@ $$
 
 メソッド
 
-| メソッド名                    | 型        | 説明                                     |
-| ----------------------------- | --------- | ---------------------------------------- |
-| addError(String errorMessage) | `void`    | エラーメッセージを追加する               |
-| hasErrors()                   | `boolean` | エラーが 1 件以上あるかを判定する        |
-| merge(ValidationResult other) | `void`    | 別の `ValidationResult` の内容を統合する |
-| toString()                    | `String`  | エラー内容をまとめた文字列に変換する     |
+| メソッド名                      | 戻り値の型 | 説明                                     |
+| ------------------------------- | ---------- | ---------------------------------------- |
+| addError(`String` errorMessage) | `void`     | エラーメッセージを追加する               |
+| hasErrors()                     | `boolean`  | エラーが 1 件以上あるかを判定する        |
+| merge(`ValidationResult` other) | `void`     | 別の `ValidationResult` の内容を統合する |
+| toString()                      | `String`   | エラー内容をまとめた文字列に変換する     |
 
 **Stat**: ステータス 1 項目の種類と数値を保持する
 
@@ -1054,32 +1054,63 @@ $$
 | ------------ | ---------- | ---------------------------------------------------- |
 | prop         | `StatProp` | ステータスの種類。例：攻撃力%、会心率、HP 固定値など |
 | param        | `double`   | ステータスの数値。％か固定値かは prop によって解釈   |
-| isPercent    | `boolean`  | パーセンテージか実数かの判定フラグ                   |
 
 メソッド
 
-| メソッド名         | 型                 | 説明                                                        |
-| ------------------ | ------------------ | ----------------------------------------------------------- |
-| isPercentage()     | `boolean`          | このステータスがパーセンテージ型かどうかを判定する          |
-| validate()         | `ValidationResult` | `prop` と `param` の整合性チェックを行う                    |
-| add(Stat other)    | `Stat`             | 同じ `prop` 同士で数値を加算する。`prop` 不一致の場合は例外 |
-| copy()             | `Stat`             | この Stat のディープコピーを作成する                        |
-| equals(Object obj) | `boolean`          | `prop` と `param` の両方が一致しているか比較する            |
-| toString()         | `String`           | デバッグ・ログ用に内容を文字列化する                        |
+| メソッド名                      | 戻り値の型 | 説明                                                                 |
+| ------------------------------- | ---------- | -------------------------------------------------------------------- |
+| isPercent()                     | `boolean`  | この `prop` がパーセンテージ系のプロパティかを返す                   |
+| isFlat()                        | `boolean`  | 実数値ステータスかどうかを判定                                       |
+| isValidFor(`ArtifactType` type) | `boolean`  | 指定した部位のメインオプションとしてこの `prop` が適切かどうかを判定 |
+| equals(`Object` obj)            | `boolean`  | `prop` と `param` に基づいて等価性を比較                             |
+| copy()                          | `Stat`     | この `Stat` のディープコピーを作成                                   |
+| toString()                      | `String`   | デバッグ用途で `prop` : `value` の形式で出力                         |
+
+**StatProp**: ステータス 1 項目の種類と数値を保持する
+
+プロパティ
+
+| プロパティ名 | 型        | 説明                                         |
+| ------------ | --------- | -------------------------------------------- |
+| id           | `String`  | 内部処理用識別子                             |
+| name         | `String`  | UI 用の表示名                                |
+| isPercent    | `boolean` | 実数かパーセンテージかを判定するためにデータ |
+
+メソッド
+
+| メソッド名               | 戻り値の型       | 説明                         |
+| ------------------------ | ---------------- | ---------------------------- |
+| values()                 | `List<StatProp>` | 全 `StatProp` の一覧         |
+| getStatProp(`String` id) | `StatProp`       | コードから `StatProp` を取得 |
+| toString()               | `String`         | 表示名を返す                 |
 
 **ArtifactInventory**:聖遺物の一覧管理（登録・編集・削除）
 
 プロパティ
 
-- artifacts: `List<Artifact>`
+| プロパティ名 | 型               | 説明                       |
+| ------------ | ---------------- | -------------------------- |
+| artifacts    | `List<Artifact>` | 登録されている聖遺物の一覧 |
 
 メソッド
 
-- addArtifact(`Artifact` artifact)
-- removeArtifact(`String` artifactId)
-- updateArtifact(`Artifact` artifact)
-- getArtifact(`String` artifactId): `Artifact`
-- listArtifacts(): `List<Artifact>`
+<!-- ここについて確定させる -->
+
+| メソッド名                                  | 戻り値の型               | 説明                                                             |
+| ------------------------------------------- | ------------------------ | ---------------------------------------------------------------- |
+| addArtifact(`Artifact` artifact)            | `boolean`                | 聖遺物を追加（同じ ID のものがあれば追加せず false を返す）      |
+| removeArtifact(`UUID` id)                   | `boolean`                | 指定した ID の聖遺物を削除する                                   |
+| getArtifact(`UUID` id)                      | `Optional<Artifact>`     | ID に一致する聖遺物を取得する                                    |
+| findBySet(`ArtifactSet` set)                | `List<Artifact>`         | セット名でフィルタした聖遺物一覧を取得                           |
+| findByType(`ArtifactType` type)             | `List<Artifact>`         | 部位ごとにフィルタした聖遺物一覧を取得                           |
+| findByMainStat(`StatProp` prop)             | `List<Artifact>`         | 指定したメインステータスを持つ聖遺物を取得                       |
+| findByCharacter(`Character` character)      | `List<Artifact>`         | 指定キャラに装備可能な聖遺物一覧を取得（`canEquipTo()` を利用）  |
+| sortByScoreDesc()                           | `List<Artifact>`         | 会心スコアの高い順に並べ替えた聖遺物一覧を返す                   |
+| validateAll()                               | `List<ValidationResult>` | すべての聖遺物に対して `validate()` を実行し、結果一覧を返す     |
+| importFrom(`List<Artifact>` otherArtifacts) | `int`                    | 他のリストから聖遺物を一括でインポート（重複は除外）、件数を返す |
+| exportToFile(`String` path)                 | `boolean`                | 聖遺物一覧を指定ファイルに保存する（JSON/CSV 等、後で形式指定）  |
+| loadFromFile(`String` path)                 | `boolean`                | 指定ファイルから聖遺物一覧を読み込み、既存データに統合する       |
+| toString()                                  | `String`                 | 現在の聖遺物一覧の内容を出力                                     |
 
 **ArtifactFilter**:検索・フィルタ条件の設定
 
