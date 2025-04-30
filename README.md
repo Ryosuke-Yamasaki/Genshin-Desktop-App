@@ -1063,12 +1063,12 @@ $$
 
 メソッド
 
-| メソッド名                               | 戻り値の型         | 説明                                                   |
-| ---------------------------------------- | ------------------ | ------------------------------------------------------ |
-| isAvailableArtifactType(`StatProp` stat) | `boolean`          | 指定したメインオプションがこの部位に含まれているか判定 |
-| getArtifactTypeName(`String` id)         | `String`           | 指定した ID に対応する聖遺物の部位名を取得             |
-| toString()                               | `String`           | 部位名を文字列として返す                               |
-| validate()                               | `ValidationResult` | 部位情報の整合性チェック                               |
+| メソッド名                       | 戻り値の型         | 説明                                                   |
+| -------------------------------- | ------------------ | ------------------------------------------------------ |
+| isAvailableType(`StatProp` stat) | `boolean`          | 指定したメインオプションがこの部位に含まれているか判定 |
+| getTypeName(`String` id)         | `String`           | 指定した ID に対応する聖遺物の部位名を取得             |
+| toString()                       | `String`           | 部位名を文字列として返す                               |
+| validate()                       | `ValidationResult` | 部位情報の整合性チェック                               |
 
 **ArtifactSetEffect**: セット効果（装備数に応じた複数バフ）を保持する
 
@@ -1135,21 +1135,16 @@ $$
 
 メソッド
 
-| メソッド名                                  | 戻り値の型               | 説明                                                             |
-| ------------------------------------------- | ------------------------ | ---------------------------------------------------------------- |
-| addArtifact(`Artifact` artifact)            | `boolean`                | 聖遺物を追加（同じ ID のものがあれば追加せず false を返す）      |
-| removeArtifact(`UUID` id)                   | `boolean`                | 指定した ID の聖遺物を削除する                                   |
-| getArtifact(`UUID` id)                      | `Optional<Artifact>`     | ID に一致する聖遺物を取得する                                    |
-| findBySet(`ArtifactSet` set)                | `List<Artifact>`         | セット名でフィルタした聖遺物一覧を取得                           |
-| findByType(`ArtifactType` type)             | `List<Artifact>`         | 部位ごとにフィルタした聖遺物一覧を取得                           |
-| findByMainStat(`StatProp` prop)             | `List<Artifact>`         | 指定したメインステータスを持つ聖遺物を取得                       |
-| findByCharacter(`Character` character)      | `List<Artifact>`         | 指定キャラに装備可能な聖遺物一覧を取得（`canEquipTo()` を利用）  |
-| sortByScoreDesc()                           | `List<Artifact>`         | 会心スコアの高い順に並べ替えた聖遺物一覧を返す                   |
-| validateAll()                               | `List<ValidationResult>` | すべての聖遺物に対して `validate()` を実行し、結果一覧を返す     |
-| importFrom(`List<Artifact>` otherArtifacts) | `int`                    | 他のリストから聖遺物を一括でインポート（重複は除外）、件数を返す |
-| exportToFile(`String` path)                 | `boolean`                | 聖遺物一覧を指定ファイルに保存する（JSON/CSV 等、後で形式指定）  |
-| loadFromFile(`String` path)                 | `boolean`                | 指定ファイルから聖遺物一覧を読み込み、既存データに統合する       |
-| toString()                                  | `String`                 | 現在の聖遺物一覧の内容を出力                                     |
+| メソッド名                                          | 戻り値の型               | 説明                                                                                |
+| --------------------------------------------------- | ------------------------ | ----------------------------------------------------------------------------------- |
+| addArtifact(`Artifact` artifact)                    | `boolean`                | 聖遺物を登録（同じ `id` のものがあれば追加せず `false` を返す）                     |
+| editArtifact(`UUID` id, `Artifact` updatedArtifact) | `boolean`                | 指定した `id` の聖遺物を編集する（同じ `id` のものがあれば追加せず `false` を返す） |
+| removeArtifact(`UUID` id)                           | `boolean`                | 指定した `id` の聖遺物を削除する（同じ `id` のものがあれば追加せず `false` を返す） |
+| validateAll()                                       | `List<ValidationResult>` | すべての聖遺物に対して `validate()` を実行し、結果一覧を返す                        |
+| importFrom(`List<Artifact>` otherArtifacts)         | `int`                    | 他のリストから聖遺物を一括でインポート（重複は除外）、件数を返す                    |
+| exportToFile(`String` path)                         | `boolean`                | 聖遺物一覧を指定ファイルに保存する（JSON/CSV 等、後で形式指定）                     |
+| loadFromFile(`String` path)                         | `boolean`                | 指定ファイルから聖遺物一覧を読み込み、既存データに統合する                          |
+| toString()                                          | `String`                 | 現在の聖遺物一覧の内容を出力                                                        |
 
 **ArtifactFilter**:検索・フィルタ条件の設定
 
@@ -1176,12 +1171,40 @@ $$
 
 プロパティ
 
-- sortKey: `String`（例：攻撃力、会心率など）
-- ascending: `boolean`（昇順／降順）
+| プロパティ名 | 型                    | 説明                                      |
+| ------------ | --------------------- | ----------------------------------------- |
+| sortKeys     | `List<SortCriterion>` | ソート基準のリスト（優先順位順）          |
+| isAscending  | `boolean`             | 昇順ソート（true）か降順ソート（false）か |
+| artifacts    | `List<Artifact>`      | ソート対象の聖遺物リスト                  |
 
 メソッド
 
-- sort(`List<Artifact>` artifacts): `List<Artifact>`
+| メソッド名                              | 戻り値の型         | 説明                                                         |
+| --------------------------------------- | ------------------ | ------------------------------------------------------------ |
+| sort()                                  | `List<Artifact>`   | 設定された条件で聖遺物リストをソートし、結果を返す           |
+| setSortKeys(`List<SortCriterion>` keys) | `void`             | ソート基準を設定する                                         |
+| setAscending(`boolean` asc)             | `void`             | 昇順または降順の設定を行う                                   |
+| setArtifacts(`List<Artifact>`)          | `void`             | ソート対象の聖遺物リストを設定する                           |
+| clear()                                 | `void`             | ソート条件・対象をすべてリセット                             |
+| validate()                              | `ValidationResult` | ソート条件の整合性チェック（基準の重複や未指定の基準を検出） |
+
+**ArtifactSortCriterion**:ソート基準を管理
+
+プロパティ
+
+| プロパティ名 | 型                   | 説明                                   |
+| ------------ | -------------------- | -------------------------------------- |
+| keyType      | `SortKeyType`        | ソート対象の種類（ `Enum` 使用）       |
+| statProp     | `Optional<StatProp>` | `keyType` が `STAT_PROP` のときに使う  |
+| priority     | `int`                | ソート優先順位（数値が小さいほど高い） |
+
+メソッド
+
+| メソッド名                        | 戻り値の型         | 説明                                                       |
+| --------------------------------- | ------------------ | ---------------------------------------------------------- |
+| compare(Artifact a1, Artifact a2) | `int`              | 指定した `statProp` に基づいて 2 つの聖遺物を比較する      |
+| validate()                        | `ValidationResult` | `statProp` が未指定でないか、priority が正値であるかを確認 |
+| toString()                        | `String`           | ソート基準の説明文字列を返す（例："会心率 (優先度 1)"）    |
 
 **ArtifactSelector**:フィルタ＋ソート後の聖遺物選択
 
