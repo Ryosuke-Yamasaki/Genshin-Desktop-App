@@ -1231,33 +1231,35 @@ $$
 
 メソッド
 
-- validate(`Artifact` artifact): `ValidationResult`
+| メソッド名                                    | 戻り値の型         | 説明                                                                      |
+| --------------------------------------------- | ------------------ | ------------------------------------------------------------------------- |
+| validate(`Artifact` artifact)                 | `ValidationResult` | 聖遺物 1 件の整合性チェック（メインステータス・サブステータスの不正など） |
+| validateSubStats(`Artifact` artifact)         | `ValidationResult` | サブステータスに関する妥当性検証（重複チェック・値の範囲など）            |
+| validateMainStat(`Artifact` artifact)         | `ValidationResult` | メインステータスが部位に合致しているかを検証                              |
+| validateLevel(`Artifact` artifact)            | `ValidationResult` | レベルがレアリティに応じた範囲内かを検証                                  |
+| validateRarity(`Artifact` artifact)           | `ValidationResult` | レアリティが存在するものか、正しいかどうかを検証                          |
+| validateSetCompatibility(`Artifact` artifact) | `ValidationResult` | 聖遺物がセットに属している部位かどうかの整合性を検証                      |
 
 **ArtifactRepository**:保存・読み込み処理
 
-メソッド
+プロパティ
 
-- save(`List<Artifact>` artifacts)
-- load(): `List<Artifact>`
-
-**ArtifactDetailViewer**:個別詳細表示（UI 用）
-
-メソッド
-
-- displayDetail(`Artifact` artifact)
-
-**ArtifactListViewer**:一覧表示（UI 用）
+| プロパティ名 | 型       | 説明                                                 |
+| ------------ | -------- | ---------------------------------------------------- |
+| path         | `String` | 保存・読み込みを行うファイルまたはディレクトリのパス |
+| format       | `String` | 保存形式（例：JSON、CSV など）                       |
 
 メソッド
 
-- displayList(`List<Artifact>` artifacts)
-
-**ArtifactEditor**:編集画面管理（UI 用）
-
-メソッド
-
-- editArtifact(`Artifact` artifact)
-- createNewArtifact(): `Artifact`
+| メソッド名                       | 戻り値の型         | 説明                                                       |
+| -------------------------------- | ------------------ | ---------------------------------------------------------- |
+| save(`List<Artifact>` artifacts) | `void`             | 聖遺物リストを現在の `path` に保存                         |
+| load()                           | `List<Artifact>`   | `path` から聖遺物データを読み込み、Artifact のリストを返す |
+| setPath(`String` path)           | `void`             | 保存・読み込み先のパスを設定                               |
+| setFormat(`String` format)       | `void`             | 使用するデータ形式を設定（"json" や "csv"）                |
+| isReadable()                     | `boolean`          | `path` が読み込み可能な状態か判定                          |
+| isWritable()                     | `boolean`          | `path` に書き込み可能かどうかを判定                        |
+| validateFormatCompatibility()    | `ValidationResult` | 現在のフォーマットがデータと互換性があるかを検証           |
 
 **ArtifactImporter**:外部データインポート処理
 
@@ -1291,6 +1293,12 @@ $$
 - PIECE_TYPES: `List<String>`
 - MAIN_STAT_TYPES: `List<String>`
 - SUB_STAT_TYPES: `List<String>`
+
+**ArtifactDetailViewer**:個別詳細表示（UI 用）
+
+**ArtifactListViewer**:一覧表示（UI 用）
+
+**ArtifactEditor**:編集画面管理（UI 用）
 
 **BuffEffect**: 単一のバフ効果（条件・スタック・持続付き）を保持する
 
