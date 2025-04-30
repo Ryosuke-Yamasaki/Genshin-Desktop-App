@@ -1282,26 +1282,51 @@ $$
 | setProgressListener(`ProgressListener` listener) | `void`           | 進捗リスナーの登録                                  |
 | clear()                                          | `void`           | 状態を初期化し、再インポートを可能にする            |
 
-**ArtifactManager**:各 `Artifact` 系クラスの統括管理
+**ArtifactManager**: 聖遺物の統括管理を行うクラス
 
 プロパティ
 
-- inventory: `ArtifactInventory`
-- filter: `ArtifactFilter`
-- sorter: `ArtifactSorter`
+| プロパティ名 | 型                  | 説明                                       |
+| ------------ | ------------------- | ------------------------------------------ |
+| inventory    | `ArtifactInventory` | 聖遺物の登録・管理を行うリストコンテナ     |
+| selector     | `ArtifactSelector`  | フィルタ＋ソート＋選定を行うユーティリティ |
+| validator    | `ArtifactValidator` | バリデーション処理ユーティリティ           |
+| activeFilter | `ArtifactFilter`    | 現在適用中のフィルタ条件                   |
+| activeSorter | `ArtifactSorter`    | 現在適用中のソート条件                     |
 
 メソッド
 
-- searchArtifacts(ArtifactFilter filter, ArtifactSorter sorter): `List<Artifact>`
-- manageArtifact(`Artifact` artifact)
+| メソッド名                                              | 戻り値の型               | 説明                                                       |
+| ------------------------------------------------------- | ------------------------ | ---------------------------------------------------------- |
+| loadArtifactsFromFile(`String` path)                    | `boolean`                | ファイルから聖遺物を読み込み、inventory に登録             |
+| saveArtifactsToFile(`String` path)                      | `boolean`                | 現在の inventory をファイルへ保存（JSON または CSV）       |
+| importArtifacts(`List<Artifact>` artifacts)             | `int`                    | 他の聖遺物リストからインポートし、重複を排除した件数を返す |
+| getFilteredSortedArtifacts()                            | `List<Artifact>`         | 現在のフィルタ＋ソートを適用した聖遺物リストを返す         |
+| validateAllArtifacts()                                  | `List<ValidationResult>` | inventory 全体に対してバリデーションを実行                 |
+| setFilter(`ArtifactFilter` filter)                      | `void`                   | フィルタ条件を設定し、selector にも反映                    |
+| setSorter(`ArtifactSorter` sorter)                      | `void`                   | ソート条件を設定し、selector にも反映                      |
+| clearFilter()                                           | `void`                   | フィルタ条件をリセットし selector も初期化                 |
+| clearSorter()                                           | `void`                   | ソート条件をリセットし selector も初期化                   |
+| getArtifactById(`UUID` id)                              | `Optional<Artifact>`     | ID に一致する聖遺物を inventory から取得                   |
+| removeArtifactById(`UUID` id)                           | `boolean`                | 指定 ID の聖遺物を削除                                     |
+| editArtifactById(`UUID` id, `Artifact` updatedArtifact) | `boolean`                | 指定 ID の聖遺物を更新                                     |
+| addArtifact(`Artifact` artifact)                        | `boolean`                | 新しい聖遺物を inventory に追加                            |
+| toString()                                              | `String`                 | 現在の状態（登録数、フィルタ状態など）を文字列出力         |
 
-**ArtifactConstants**:聖遺物に関する定数管理
+**ArtifactConstants**:聖遺物に関する定数管理（適宜追加する）
 
 プロパティ
 
-- PIECE_TYPES: `List<String>`
-- MAIN_STAT_TYPES: `List<String>`
-- SUB_STAT_TYPES: `List<String>`
+| プロパティ名                 | 型                          | 説明                                                      |
+| ---------------------------- | --------------------------- | --------------------------------------------------------- |
+| TYPES                        | `List<String>`              | 聖遺物の部位（例: 時計、冠、杯など）                      |
+| SET_NAMES                    | `List<String>`              | 有効な聖遺物セット名                                      |
+| MAIN_STATS_PER_PART          | `Map<String, List<String>>` | 各部位に対して可能なメインステータスの一覧                |
+| SUB_STATS                    | `List<String>`              | 有効なサブステータス名                                    |
+| MAX_SUB_STAT_ROLLS           | `Map<String, Double>`       | サブステータスごとの最大ロール値                          |
+| STAT_DISPLAY_NAMES           | `Map<String, String>`       | ステータスの内部名と表示名のマッピング                    |
+| VALID_SET_BONUS_COMBINATIONS | `List<List<String>>`        | 有効なセット効果の組み合わせ（例: 4 セット / 2+2 セット） |
+| ELEMENT_TYPES                | `List<String>`              | 炎、水、雷などの元素タイプ（キャラ最適化用）              |
 
 **ArtifactDetailViewer**:個別詳細表示（UI 用）
 
