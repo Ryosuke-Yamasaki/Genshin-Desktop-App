@@ -1229,49 +1229,58 @@ $$
 
 **ArtifactValidator**:入力チェック・整合性検証
 
+プロパティ
+
+| プロパティ名 | 型                 | 説明                     |
+| ------------ | ------------------ | ------------------------ |
+| result       | `ValidationResult` | バリデーション結果を保持 |
+
 メソッド
 
-| メソッド名                                    | 戻り値の型         | 説明                                                                      |
-| --------------------------------------------- | ------------------ | ------------------------------------------------------------------------- |
-| validate(`Artifact` artifact)                 | `ValidationResult` | 聖遺物 1 件の整合性チェック（メインステータス・サブステータスの不正など） |
-| validateSubStats(`Artifact` artifact)         | `ValidationResult` | サブステータスに関する妥当性検証（重複チェック・値の範囲など）            |
-| validateMainStat(`Artifact` artifact)         | `ValidationResult` | メインステータスが部位に合致しているかを検証                              |
-| validateLevel(`Artifact` artifact)            | `ValidationResult` | レベルがレアリティに応じた範囲内かを検証                                  |
-| validateRarity(`Artifact` artifact)           | `ValidationResult` | レアリティが存在するものか、正しいかどうかを検証                          |
-| validateSetCompatibility(`Artifact` artifact) | `ValidationResult` | 聖遺物がセットに属している部位かどうかの整合性を検証                      |
+| メソッド名                                    | 戻り値の型         | 説明                                                                     |
+| --------------------------------------------- | ------------------ | ------------------------------------------------------------------------ |
+| validateArtifact(`List<Artifact>` artifacts)  | `ValidationResult` | 聖遺物リストのバリデーションを行い、結果を `ValidationResult` として返す |
+| validateArtifacts(`Artifact` artifact)        | `ValidationResult` | 聖遺物 1 件のバリデーションを実行する                                    |
+| validateMainStat(`Artifact` artifact)         | `ValidationResult` | メインステータスの整合性チェック                                         |
+| validateSubStats(`Artifact` artifact)         | `ValidationResult` | サブステータスの妥当性検証                                               |
+| validateLevel(`Artifact` artifact)            | `ValidationResult` | レベルがレアリティに適しているかをチェック                               |
+| validateRarity(`Artifact` artifact)           | `ValidationResult` | レアリティが正しいかを検証                                               |
+| validateSetCompatibility(`Artifact` artifact) | `ValidationResult` | セットの整合性を検証                                                     |
 
 **ArtifactRepository**:保存・読み込み処理
 
 プロパティ
 
-| プロパティ名 | 型       | 説明                                                 |
-| ------------ | -------- | ---------------------------------------------------- |
-| path         | `String` | 保存・読み込みを行うファイルまたはディレクトリのパス |
-| format       | `String` | 保存形式（例：JSON、CSV など）                       |
+| プロパティ名 | 型       | 説明                          |
+| ------------ | -------- | ----------------------------- |
+| filePath     | `String` | JSON ファイルのパス（保存先） |
 
 メソッド
 
-| メソッド名                       | 戻り値の型         | 説明                                                       |
-| -------------------------------- | ------------------ | ---------------------------------------------------------- |
-| save(`List<Artifact>` artifacts) | `void`             | 聖遺物リストを現在の `path` に保存                         |
-| load()                           | `List<Artifact>`   | `path` から聖遺物データを読み込み、Artifact のリストを返す |
-| setPath(`String` path)           | `void`             | 保存・読み込み先のパスを設定                               |
-| setFormat(`String` format)       | `void`             | 使用するデータ形式を設定（"json" や "csv"）                |
-| isReadable()                     | `boolean`          | `path` が読み込み可能な状態か判定                          |
-| isWritable()                     | `boolean`          | `path` に書き込み可能かどうかを判定                        |
-| validateFormatCompatibility()    | `ValidationResult` | 現在のフォーマットがデータと互換性があるかを検証           |
+| メソッド名                                | 戻り値の型       | 説明                                           |
+| ----------------------------------------- | ---------------- | ---------------------------------------------- |
+| loadArtifacts()                           | `List<Artifact>` | JSON ファイルから聖遺物データを読み込む        |
+| saveArtifacts(`List<Artifact>` artifacts) | `void`           | 聖遺物データのリストを JSON ファイルに保存する |
 
 **ArtifactImporter**:外部データインポート処理
 
+プロパティ
+
+| 名前              | 型                 | 説明                                   |
+| ----------------- | ------------------ | -------------------------------------- |
+| filePath          | `String`           | JSON ファイルのパス                    |
+| progressListener  | `ProgressListener` | 読み込み進捗を通知するリスナー（任意） |
+| importedArtifacts | `List<Artifact>`   | 読み込んだ聖遺物のリスト               |
+
 メソッド
 
-- importFromExternalSource(): `List<Artifact>`
-
-**ArtifactExporter**:外部エクスポート処理
-
-メソッド
-
-- exportToFile(`List<Artifact>` artifacts)
+| 名前                                             | 戻り値           | 説明                                                |
+| ------------------------------------------------ | ---------------- | --------------------------------------------------- |
+| setFilePath(`String` path)                       | `void`           | 対象の JSON ファイルを設定する                      |
+| importArtifacts()                                | `List<Artifact>` | JSON を読み込んで聖遺物リストを返す（内部にも保持） |
+| getImportedArtifacts()                           | `List<Artifact>` | 読み込み済み聖遺物データの取得                      |
+| setProgressListener(`ProgressListener` listener) | `void`           | 進捗リスナーの登録                                  |
+| clear()                                          | `void`           | 状態を初期化し、再インポートを可能にする            |
 
 **ArtifactManager**:各 `Artifact` 系クラスの統括管理
 
