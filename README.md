@@ -502,10 +502,10 @@ stateDiagram-v2
 | set      | `ArtifactSet`  | ✅   | ⬜   |                               | 聖遺物のセット     |
 | type     | `ArtifactType` | ✅   | ✅   |                               | 聖遺物の部位       |
 | mainStat | `Stat`         | ✅   | ✅   | type によって選択肢条件あり   | メインオプション   |
-| subStats | `List<Stat>`   | ✅   | ⬜   | 4 つかつ重複不可              | サブオプション     |
-| rarity   | `Int`          | ✅   | ⬜   |                               | レア度             |
-| level    | `Int`          | ✅   | ⬜   | rarity によって選択肢条件あり | 聖遺物のレベル     |
-| score    | `Double`       | ✅   | ⬜   |                               | 聖遺物の会心スコア |
+| subStats | `Set<Stat>`    | ✅   | ⬜   | 4 つかつ重複不可              | サブオプション     |
+| rarity   | `int`          | ✅   | ⬜   |                               | レア度             |
+| level    | `int`          | ✅   | ⬜   | rarity によって選択肢条件あり | 聖遺物のレベル     |
+| score    | `double`       | ✅   | ⬜   |                               | 聖遺物の会心スコア |
 
 - 出力項目
 
@@ -516,65 +516,65 @@ stateDiagram-v2
 | set      | `ArtifactSet`  | ⬜   | ⬜   |                          | 聖遺物登録内容確認ダイアログ用 |
 | type     | `ArtifactType` | ⬜   | ✅   |                          | 聖遺物登録内容確認ダイアログ用 |
 | mainStat | `Stat`         | ⬜   | ✅   |                          | 聖遺物登録内容確認ダイアログ用 |
-| subStats | `List<Stat>`   | ⬜   | ⬜   |                          | 聖遺物登録内容確認ダイアログ用 |
-| rarity   | `Int`          | ⬜   | ⬜   |                          | 聖遺物登録内容確認ダイアログ用 |
-| level    | `Int`          | ⬜   | ⬜   |                          | 聖遺物登録内容確認ダイアログ用 |
-| score    | `Double`       | ⬜   | ⬜   |                          | 聖遺物登録内容確認ダイアログ用 |
+| subStats | `Set<Stat>`    | ⬜   | ⬜   |                          | 聖遺物登録内容確認ダイアログ用 |
+| rarity   | `int`          | ⬜   | ⬜   |                          | 聖遺物登録内容確認ダイアログ用 |
+| level    | `int`          | ⬜   | ⬜   |                          | 聖遺物登録内容確認ダイアログ用 |
+| score    | `double`       | ⬜   | ⬜   |                          | 聖遺物登録内容確認ダイアログ用 |
 
 キャラクターマイセット登録・編集モジュール
 
 - 入力項目
 
-| 項目名             | 型          | 必須 | Enum | 制約 | 説明                       |
-| ------------------ | ----------- | ---- | ---- | ---- | -------------------------- |
-| id                 | `UUID`      | ✅   | ⬜   |      | 一意な ID                  |
-| character          | `Character` | ✅   | ⬜   |      | キャラクター               |
-| characterLevel     | `Int`       | ✅   | ⬜   | 1-90 | キャラクターのレベル       |
-| characterAscension | `Int`       | ✅   | ⬜   | 0-6  | キャラクターの突破段階     |
-| talentLevels       | `List<Int>` | ✅   | ⬜   | 1-10 | キャラクターの各天賦レベル |
-| constellation      | `Int`       | ✅   | ⬜   | 0-6  | キャラクターの命の星座     |
-| weapon             | `Weapon`    | ✅   | ⬜   |      | キャラクターの武器         |
-| weaponLevel        | `Int`       | ✅   | ⬜   | 1-90 | 武器のレベル               |
-| weaponAscension    | `Int`       | ✅   | ⬜   | 0-6  | 武器の突破段階             |
-| refinement         | `Int`       | ✅   | ⬜   | 1-5  | 精錬ランク                 |
+| 項目名             | 型                     | 必須 | Enum | 制約 | 説明                       |
+| ------------------ | ---------------------- | ---- | ---- | ---- | -------------------------- |
+| id                 | `UUID`                 | ✅   | ⬜   |      | 一意な ID                  |
+| character          | `Character`            | ✅   | ⬜   |      | キャラクター               |
+| characterLevel     | `int`                  | ✅   | ⬜   | 1-90 | キャラクターのレベル       |
+| characterAscension | `int`                  | ✅   | ⬜   | 0-6  | キャラクターの突破段階     |
+| talentLevels       | `Map<String, Integer>` | ✅   | ⬜   | 1-10 | キャラクターの各天賦レベル |
+| constellation      | `int`                  | ✅   | ⬜   | 0-6  | キャラクターの命の星座     |
+| weapon             | `Weapon`               | ✅   | ⬜   |      | キャラクターの武器         |
+| weaponLevel        | `int`                  | ✅   | ⬜   | 1-90 | 武器のレベル               |
+| weaponAscension    | `int`                  | ✅   | ⬜   | 0-6  | 武器の突破段階             |
+| refinement         | `int`                  | ✅   | ⬜   | 1-5  | 精錬ランク                 |
 
 - 出力項目
 
-| 項目名             | 型           | 必須 | Enum | 制約                     | 説明                                           |
-| ------------------ | ------------ | ---- | ---- | ------------------------ | ---------------------------------------------- |
-| status             | `StatusType` | ✅   | ✅   | `success` または `error` | 処理結果のステータス                           |
-| message            | `String`     | ✅   | ⬜   |                          | status に応じたメッセージ                      |
-| character          | `Character`  | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
-| characterLevel     | `Int`        | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
-| characterAscension | `Int`        | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
-| talentLevels       | `List<Int>`  | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
-| constellation      | `Int`        | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
-| weapon             | `Weapon`     | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
-| weaponLevel        | `Int`        | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
-| weaponAscension    | `Int`        | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
-| refinement         | `Int`        | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
+| 項目名             | 型                     | 必須 | Enum | 制約                     | 説明                                           |
+| ------------------ | ---------------------- | ---- | ---- | ------------------------ | ---------------------------------------------- |
+| status             | `StatusType`           | ✅   | ✅   | `success` または `error` | 処理結果のステータス                           |
+| message            | `String`               | ✅   | ⬜   |                          | status に応じたメッセージ                      |
+| character          | `Character`            | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
+| characterLevel     | `int`                  | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
+| characterAscension | `int`                  | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
+| talentLevels       | `Map<String, Integer>` | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
+| constellation      | `int`                  | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
+| weapon             | `Weapon`               | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
+| weaponLevel        | `int`                  | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
+| weaponAscension    | `int`                  | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
+| refinement         | `int`                  | ⬜   | ⬜   |                          | キャラクターマイセット登録内容確認ダイアログ用 |
 
 パーティ編成登録・編集モジュール
 
 - 入力項目
 
-| 項目名     | 型                     | 必須 | Enum | 制約               | 説明                 |
-| ---------- | ---------------------- | ---- | ---- | ------------------ | -------------------- |
-| id         | `UUID`                 | ✅   | ⬜   |                    | 一意な ID            |
-| name       | `String`               | ✅   | ⬜   |                    | パーティ名           |
-| characters | `List<CharacterMySet>` | ✅   | ⬜   | 1-4 人かつ重複不可 | 編成するキャラクター |
-| roles      | `List<Role>`           | ✅   | ✅   | 火力枠またはバフ枠 | パーティでの役割     |
+| 項目名     | 型                            | 必須 | Enum | 制約               | 説明                 |
+| ---------- | ----------------------------- | ---- | ---- | ------------------ | -------------------- |
+| id         | `UUID`                        | ✅   | ⬜   |                    | 一意な ID            |
+| name       | `String`                      | ✅   | ⬜   |                    | パーティ名           |
+| characters | `List<CharacterMySet>`        | ✅   | ⬜   | 1-4 人かつ重複不可 | 編成するキャラクター |
+| roles      | `Map<CharacterMySet, String>` | ✅   | ✅   | 火力枠またはバフ枠 | パーティでの役割     |
 
 - 出力項目
 
-| 項目名             | 型                         | 必須 | Enum | 制約                     | 説明                                 |
-| ------------------ | -------------------------- | ---- | ---- | ------------------------ | ------------------------------------ |
-| status             | `StatusType`               | ✅   | ✅   | `success` または `error` | 処理結果のステータス                 |
-| message            | `String`                   | ✅   | ⬜   |                          | status に応じたメッセージ            |
-| name               | `String`                   | ⬜   | ⬜   |                          | パーティ編成登録内容確認ダイアログ用 |
-| characters         | `List<CharacterMySet>`     | ⬜   | ⬜   |                          | パーティ編成登録内容確認ダイアログ用 |
-| roles              | `List<Role>`               | ⬜   | ✅   |                          | パーティ編成登録内容確認ダイアログ用 |
-| elementalResonance | `List<ElementalResonance>` | ⬜   | ✅   |                          | パーティ編成登録内容確認ダイアログ用 |
+| 項目名             | 型                            | 必須 | Enum | 制約                     | 説明                                 |
+| ------------------ | ----------------------------- | ---- | ---- | ------------------------ | ------------------------------------ |
+| status             | `StatusType`                  | ✅   | ✅   | `success` または `error` | 処理結果のステータス                 |
+| message            | `String`                      | ✅   | ⬜   |                          | status に応じたメッセージ            |
+| name               | `String`                      | ⬜   | ⬜   |                          | パーティ編成登録内容確認ダイアログ用 |
+| characters         | `List<CharacterMySet>`        | ⬜   | ⬜   |                          | パーティ編成登録内容確認ダイアログ用 |
+| roles              | `Map<CharacterMySet, String>` | ⬜   | ✅   |                          | パーティ編成登録内容確認ダイアログ用 |
+| elementalResonance | `Set<ElementalResonance>`     | ⬜   | ✅   |                          | パーティ編成登録内容確認ダイアログ用 |
 
 ローテーション登録・編集モジュール
 
@@ -599,69 +599,69 @@ stateDiagram-v2
 
 - 入力項目
 
-| 項目名           | 型                 | 必須 | Enum | 制約 | 説明                   |
-| ---------------- | ------------------ | ---- | ---- | ---- | ---------------------- |
-| id               | `UUID`             | ✅   | ⬜   |      | 一意な ID              |
-| rotation         | `Rotation`         | ✅   | ⬜   |      | 選択したローテーション |
-| character        | `Character`        | ✅   | ⬜   |      | 最適化するキャラクター |
-| enemyLevel       | `Int`              | ✅   | ⬜   |      | 敵のレベル             |
-| enemyResistances | `List<Resistance>` | ✅   | ⬜   |      | 敵の耐性               |
+| 項目名           | 型                    | 必須 | Enum | 制約 | 説明                   |
+| ---------------- | --------------------- | ---- | ---- | ---- | ---------------------- |
+| id               | `UUID`                | ✅   | ⬜   |      | 一意な ID              |
+| rotation         | `Rotation`            | ✅   | ⬜   |      | 選択したローテーション |
+| character        | `Character`           | ✅   | ⬜   |      | 最適化するキャラクター |
+| enemyLevel       | `int`                 | ✅   | ⬜   |      | 敵のレベル             |
+| enemyResistances | `Map<String, Double>` | ✅   | ⬜   |      | 敵の耐性               |
 
 - 出力項目
 
-| 項目名           | 型                 | 必須 | Enum | 制約                     | 説明                      |
-| ---------------- | ------------------ | ---- | ---- | ------------------------ | ------------------------- |
-| status           | `StatusType`       | ✅   | ✅   | `success` または `error` | 処理結果のステータス      |
-| message          | `String`           | ✅   | ⬜   |                          | status に応じたメッセージ |
-| rotation         | `Rotation`         | ⬜   | ⬜   |                          | 最適化内容確認画面用      |
-| character        | `Character`        | ⬜   | ⬜   |                          | 最適化内容確認画面用      |
-| enemyLevel       | `Int`              | ⬜   | ⬜   |                          | 最適化内容確認画面用      |
-| enemyResistances | `List<Resistance>` | ⬜   | ⬜   |                          | 最適化内容確認画面用      |
-| artifacts        | `List<Artifact>`   | ⬜   | ⬜   |                          | 最適化内容確認画面用      |
+| 項目名           | 型                            | 必須 | Enum | 制約                     | 説明                      |
+| ---------------- | ----------------------------- | ---- | ---- | ------------------------ | ------------------------- |
+| status           | `StatusType`                  | ✅   | ✅   | `success` または `error` | 処理結果のステータス      |
+| message          | `String`                      | ✅   | ⬜   |                          | status に応じたメッセージ |
+| rotation         | `Rotation`                    | ⬜   | ⬜   |                          | 最適化内容確認画面用      |
+| character        | `Character`                   | ⬜   | ⬜   |                          | 最適化内容確認画面用      |
+| enemyLevel       | `int`                         | ⬜   | ⬜   |                          | 最適化内容確認画面用      |
+| enemyResistances | `Map<String, Double>`         | ⬜   | ⬜   |                          | 最適化内容確認画面用      |
+| artifacts        | `Map<ArtifactType, Artifact>` | ⬜   | ⬜   |                          | 最適化内容確認画面用      |
 
 ダメージ計算結果詳細表示モジュール
 
 - 入力項目
 
-| 項目名           | 型                 | 必須 | Enum | 制約 | 説明                   |
-| ---------------- | ------------------ | ---- | ---- | ---- | ---------------------- |
-| id               | `UUID`             | ✅   | ⬜   |      | 一意な ID              |
-| rotation         | `Rotation`         | ✅   | ⬜   |      | ローテーションを選択   |
-| character        | `Character`        | ✅   | ⬜   |      | 最適化するキャラクター |
-| enemyLevel       | `Int`              | ✅   | ⬜   |      | 敵のレベル             |
-| enemyResistances | `List<Resistance>` | ✅   | ⬜   |      | 敵の耐性               |
-| artifacts        | `List<Artifact>`   | ⬜   | ⬜   |      | 装備する聖遺物         |
+| 項目名           | 型                            | 必須 | Enum | 制約 | 説明                   |
+| ---------------- | ----------------------------- | ---- | ---- | ---- | ---------------------- |
+| id               | `UUID`                        | ✅   | ⬜   |      | 一意な ID              |
+| rotation         | `Rotation`                    | ✅   | ⬜   |      | ローテーションを選択   |
+| character        | `Character`                   | ✅   | ⬜   |      | 最適化するキャラクター |
+| enemyLevel       | `int`                         | ✅   | ⬜   |      | 敵のレベル             |
+| enemyResistances | `Map<String, Double>`         | ✅   | ⬜   |      | 敵の耐性               |
+| artifacts        | `Map<ArtifactType, Artifact>` | ⬜   | ⬜   |      | 装備する聖遺物         |
 
 - 出力項目
 
-| 項目名            | 型                 | 必須 | Enum | 制約                     | 説明                           |
-| ----------------- | ------------------ | ---- | ---- | ------------------------ | ------------------------------ |
-| status            | `StatusType`       | ✅   | ✅   | `success` または `error` | 処理結果のステータス           |
-| message           | `String`           | ✅   | ⬜   |                          | status に応じたメッセージ      |
-| rotation          | `Rotation`         | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
-| character         | `Character`        | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
-| enemyLevel        | `Int`              | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
-| enemyResistances  | `List<Resistance>` | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
-| artifacts         | `List<Artifact>`   | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
-| totalDamage       | `Double`           | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
-| damagePerRotation | `Double`           | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
-| timePerRotation   | `Double`           | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
+| 項目名            | 型                            | 必須 | Enum | 制約                     | 説明                           |
+| ----------------- | ----------------------------- | ---- | ---- | ------------------------ | ------------------------------ |
+| status            | `StatusType`                  | ✅   | ✅   | `success` または `error` | 処理結果のステータス           |
+| message           | `String`                      | ✅   | ⬜   |                          | status に応じたメッセージ      |
+| rotation          | `Rotation`                    | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
+| character         | `Character`                   | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
+| enemyLevel        | `int`                         | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
+| enemyResistances  | `Map<String, Double>`         | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
+| artifacts         | `Map<ArtifactType, Artifact>` | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
+| totalDamage       | `double`                      | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
+| damagePerRotation | `double`                      | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
+| timePerRotation   | `double`                      | ⬜   | ⬜   |                          | ダメージ計算結果詳細表示画面用 |
 
 ダメージ計算結果比較モジュール
 
 - 入力項目
 
-| 項目名      | 型                 | 必須 | Enum | 制約 | 説明               |
-| ----------- | ------------------ | ---- | ---- | ---- | ------------------ |
-| simulations | `List<Simulation>` | ✅   | ⬜   |      | 比較するものを選択 |
+| 項目名      | 型                | 必須 | Enum | 制約 | 説明               |
+| ----------- | ----------------- | ---- | ---- | ---- | ------------------ |
+| simulations | `Set<Simulation>` | ✅   | ⬜   |      | 比較するものを選択 |
 
 - 出力項目
 
-| 項目名      | 型                 | 必須 | Enum | 制約                     | 説明                           |
-| ----------- | ------------------ | ---- | ---- | ------------------------ | ------------------------------ |
-| status      | `StatusType`       | ✅   | ✅   | `success` または `error` | 処理結果のステータス           |
-| message     | `String`           | ✅   | ⬜   |                          | status に応じたメッセージ      |
-| simulations | `List<Simulation>` | ✅   | ⬜   |                          | ダメージ計算結果詳細比較画面用 |
+| 項目名      | 型                | 必須 | Enum | 制約                     | 説明                           |
+| ----------- | ----------------- | ---- | ---- | ------------------------ | ------------------------------ |
+| status      | `StatusType`      | ✅   | ✅   | `success` または `error` | 処理結果のステータス           |
+| message     | `String`          | ✅   | ⬜   |                          | status に応じたメッセージ      |
+| simulations | `Set<Simulation>` | ✅   | ⬜   |                          | ダメージ計算結果詳細比較画面用 |
 
 #### 処理フロー設計
 
@@ -1008,25 +1008,83 @@ $$
 
 | プロパティ名 | 型             | 説明                             |
 | ------------ | -------------- | -------------------------------- |
-| id           | `UUID`         | 一意な ID                        |
-| set          | `ArtifactSet`  | セット名                         |
+| id           | `UUID`         | 内部処理用識別子                 |
+| set          | `ArtifactSet`  | セット                           |
 | type         | `ArtifactType` | 部位                             |
-| mainStat     | `Stat`         | メインステータス                 |
-| subStats     | `List<Stat>`   | サブステータス、4 個かつ重複禁止 |
+| mainStat     | `StatProp`     | メインステータス                 |
+| subStats     | `Set<Stat>`    | サブステータス、4 個かつ重複禁止 |
 | rarity       | `int`          | レアリティ：例 5★ など           |
 | level        | `int`          | 聖遺物レベル                     |
 | score        | `double`       | 会心スコア                       |
 
 メソッド
 
-| メソッド名                      | 戻り値の型         | 説明                                                             |
-| ------------------------------- | ------------------ | ---------------------------------------------------------------- |
-| validate()                      | `ValidationResult` | 各プロパティの必須チェック、制約チェックを行う                   |
-| calculateScore()                | `double`           | `subStats` から会心スコアを再計算し、 `score` プロパティを更新   |
-| canEquipTo(Character character) | `boolean`          | この聖遺物を特定キャラに装備可能か判定するロジック ※必要に応じて |
-| copy()                          | `Artifact`         | この `Artifact` のディープコピーを作成する                       |
-| equals(Object obj)              | `boolean`          | `id` をもとに同一性比較を行う                                    |
-| toString()                      | `String`           | デバッグ・ログ用にプロパティ内容を文字列化                       |
+| メソッド名                        | 戻り値の型         | 説明                                                             |
+| --------------------------------- | ------------------ | ---------------------------------------------------------------- |
+| validate()                        | `ValidationResult` | 各プロパティの必須チェック、制約チェックを行う                   |
+| calculateScore()                  | `double`           | `subStats` から会心スコアを再計算し、 `score` プロパティを更新   |
+| canEquipTo(`Character` character) | `boolean`          | この聖遺物を特定キャラに装備可能か判定するロジック ※必要に応じて |
+| copy()                            | `Artifact`         | この `Artifact` のディープコピーを作成する                       |
+| equals(`Object` obj)              | `boolean`          | `id` をもとに同一性比較を行う                                    |
+| toString()                        | `String`           | デバッグ・ログ用にプロパティ内容を文字列化                       |
+
+**ArtifactSet**:聖遺物セットの基本情報を保持する
+
+プロパティ
+
+| プロパティ名      | 型                          | 説明                     |
+| ----------------- | --------------------------- | ------------------------ |
+| id                | `String`                    | 内部処理用識別子         |
+| name              | `String`                    | セット名                 |
+| includedArtifacts | `Map<ArtifactType, String>` | このセットに属する聖遺物 |
+| rarities          | `Set<Integer>`              | レアリティ               |
+| setEffect         | `List<ArtifactSetEffect>`   | セット装備時の効果       |
+
+メソッド
+
+| メソッド名                                   | 戻り値の型                    | 説明                                                                  |
+| -------------------------------------------- | ----------------------------- | --------------------------------------------------------------------- |
+| isAvailableArtifactType(`ArtifactType` type) | `boolean`                     | 指定した部位（ArtifactType）の聖遺物がこのセットに含まれているか判定  |
+| getArtifactName(`ArtifactType` type)         | `String`                      | 指定部位に対応する聖遺物の名称を取得（例：時計 → 「魔女の炎の時刻」） |
+| getEffectByCount(`int` count)                | `Optional<ArtifactSetEffect>` | 指定数の装備数に応じたセット効果を取得（例：2 個装備で 2 セット効果） |
+| isAvailableRarity(`int` rarity)              | `boolean`                     | 指定されたレアリティがこのセットで使用可能かどうか判定                |
+| toString()                                   | `String`                      | セット名と効果の概要を文字列として返す                                |
+| validate()                                   | `ValidationResult`            | セット情報の整合性チェック（部位数過不足、効果条件など）              |
+
+**ArtifactType**:各部位（花・羽・時計・杯・冠）の基本情報を保持する
+
+プロパティ
+
+| プロパティ名      | 型              | 説明                             |
+| ----------------- | --------------- | -------------------------------- |
+| id                | `String`        | 内部処理用識別子                 |
+| name              | `String`        | 部位の名前                       |
+| includedMainStats | `Set<StatProp>` | この部位に属するメインオプション |
+
+メソッド
+
+| メソッド名                               | 戻り値の型         | 説明                                                   |
+| ---------------------------------------- | ------------------ | ------------------------------------------------------ |
+| isAvailableArtifactType(`StatProp` stat) | `boolean`          | 指定したメインオプションがこの部位に含まれているか判定 |
+| getArtifactTypeName(`String` id)         | `String`           | 指定した ID に対応する聖遺物の部位名を取得             |
+| toString()                               | `String`           | 部位名を文字列として返す                               |
+| validate()                               | `ValidationResult` | 部位情報の整合性チェック                               |
+
+**ArtifactSetEffect**: セット効果（装備数に応じた複数バフ）を保持する
+
+プロパティ
+
+| プロパティ名 | 型                 | 説明                             |
+| ------------ | ------------------ | -------------------------------- |
+| count        | `int`              | セット効果が発動する装備数       |
+| effects      | `List<BuffEffect>` | 実際のバフ効果（条件や持続含む） |
+
+メソッド
+
+| メソッド名                | 戻り値の型         | 説明                                  |
+| ------------------------- | ------------------ | ------------------------------------- |
+| isApplicable(`int` count) | `boolean`          | 指定数 n でこの効果が適用されるか判定 |
+| validate()                | `ValidationResult` | データ構造の整合性チェック            |
 
 **ValidationResult**: バリデーションの結果を保持する
 
@@ -1046,27 +1104,7 @@ $$
 | merge(`ValidationResult` other) | `void`     | 別の `ValidationResult` の内容を統合する |
 | toString()                      | `String`   | エラー内容をまとめた文字列に変換する     |
 
-**Stat**: ステータス 1 項目の種類と数値を保持する
-
-プロパティ
-
-| プロパティ名 | 型         | 説明                                                 |
-| ------------ | ---------- | ---------------------------------------------------- |
-| prop         | `StatProp` | ステータスの種類。例：攻撃力%、会心率、HP 固定値など |
-| param        | `double`   | ステータスの数値。％か固定値かは prop によって解釈   |
-
-メソッド
-
-| メソッド名                      | 戻り値の型 | 説明                                                                 |
-| ------------------------------- | ---------- | -------------------------------------------------------------------- |
-| isPercent()                     | `boolean`  | この `prop` がパーセンテージ系のプロパティかを返す                   |
-| isFlat()                        | `boolean`  | 実数値ステータスかどうかを判定                                       |
-| isValidFor(`ArtifactType` type) | `boolean`  | 指定した部位のメインオプションとしてこの `prop` が適切かどうかを判定 |
-| equals(`Object` obj)            | `boolean`  | `prop` と `param` に基づいて等価性を比較                             |
-| copy()                          | `Stat`     | この `Stat` のディープコピーを作成                                   |
-| toString()                      | `String`   | デバッグ用途で `prop` : `value` の形式で出力                         |
-
-**StatProp**: ステータス 1 項目の種類と数値を保持する
+**StatProp**: ステータスの種類を保持する
 
 プロパティ
 
@@ -1078,11 +1116,14 @@ $$
 
 メソッド
 
-| メソッド名               | 戻り値の型       | 説明                         |
-| ------------------------ | ---------------- | ---------------------------- |
-| values()                 | `List<StatProp>` | 全 `StatProp` の一覧         |
-| getStatProp(`String` id) | `StatProp`       | コードから `StatProp` を取得 |
-| toString()               | `String`         | 表示名を返す                 |
+| メソッド名                      | 戻り値の型       | 説明                                                                 |
+| ------------------------------- | ---------------- | -------------------------------------------------------------------- |
+| values()                        | `List<StatProp>` | 全 `StatProp` の一覧                                                 |
+| getStatProp(`String` id)        | `StatProp`       | コードから `StatProp` を取得                                         |
+| toString()                      | `String`         | 表示名を返す                                                         |
+| isPercent()                     | `boolean`        | この `prop` がパーセンテージ系のプロパティかを返す                   |
+| isFlat()                        | `boolean`        | 実数値ステータスかどうかを判定                                       |
+| isValidFor(`ArtifactType` type) | `boolean`        | 指定した部位のメインオプションとしてこの `prop` が適切かどうかを判定 |
 
 **ArtifactInventory**:聖遺物の一覧管理（登録・編集・削除）
 
@@ -1093,8 +1134,6 @@ $$
 | artifacts    | `List<Artifact>` | 登録されている聖遺物の一覧 |
 
 メソッド
-
-<!-- ここについて確定させる -->
 
 | メソッド名                                  | 戻り値の型               | 説明                                                             |
 | ------------------------------------------- | ------------------------ | ---------------------------------------------------------------- |
@@ -1116,13 +1155,22 @@ $$
 
 プロパティ
 
-- pieceTypes: `List<String>`（部位フィルタ）
-- setNames: `List<String>`（セット効果フィルタ）
-- statConditions: `Map<String,double>`（ステータス条件）
+| プロパティ名    | 型                                 | 説明                                                     |
+| --------------- | ---------------------------------- | -------------------------------------------------------- |
+| targetType      | `Set<ArtifactType>`                | 対象とする部位（花・羽・時計・杯・冠など）               |
+| targetMainStats | `Map<ArtifactType, Set<StatProp>>` | 部位ごとのメインステータス条件（例：杯は炎元素ダメージ） |
+| targetSubStats  | `Set<StatProp>`                    | 必須とするサブステータス（例：会心率、攻撃力%など）      |
+| targetSet       | `Set<ArtifactSet>`                 | 指定された聖遺物セット効果（例：炎の魔女、剣闘士など）   |
+| targetRarity    | `int`                              | 聖遺物の最低レアリティ（例：5）                          |
 
 メソッド
 
-- apply(`List<Artifact>` artifacts): `List<Artifact>`（フィルタ適用）
+| メソッド名                 | 戻り値の型         | 説明                                                                             |
+| -------------------------- | ------------------ | -------------------------------------------------------------------------------- |
+| validate()                 | `ValidationResult` | 各プロパティに対して整合性チェックを行う（存在しない部位や不正な組み合わせなど） |
+| matches(Artifact artifact) | `boolean`          | 指定された Artifact がこのフィルター条件に合致するかどうかを判定                 |
+| isEmpty()                  | `boolean`          | フィルター条件が何も設定されていないかを判定                                     |
+| clear()                    | `void`             | 全フィルター条件をリセット                                                       |
 
 **ArtifactSorter**:ソート処理
 
@@ -1206,16 +1254,43 @@ $$
 - MAIN_STAT_TYPES: `List<String>`
 - SUB_STAT_TYPES: `List<String>`
 
-**Buff**:バフに関する
+**BuffEffect**: 単一のバフ効果（条件・スタック・持続付き）を保持する
 
 プロパティ
 
-| プロパティ名  | 型           | 説明                   |
-| ------------- | ------------ | ---------------------- |
-| stat          | `Stat`       | バフするステータス情報 |
-| origin        | `BuffOrigin` | 発生源                 |
-| sourceId      | `UUID`       | バフ元キャラ           |
-| durationFrame | `int`        | 継続時間               |
+| プロパティ名 | 型                      | 説明                                                  |
+| ------------ | ----------------------- | ----------------------------------------------------- |
+| stats        | `Map<StatProp, Double>` | 効果内容（例：通常攻撃 +40%、重撃 +40%）              |
+| maxStacks    | `int`                   | スタック最大数（単発なら 1）                          |
+| duration     | `int`                   | 効果持続時間（0 なら永続）                            |
+| condition    | `BuffCondition`         | 効果が発動する条件（例：シールド状態、HP50%以下など） |
+
+メソッド
+
+| メソッド名                            | 戻り値の型              | 説明                                                               |
+| ------------------------------------- | ----------------------- | ------------------------------------------------------------------ |
+| getStackedBuffStats(`int` stackCount) | `Map<StatProp, Double>` | 指定されたスタック数に応じた合計効果量を返す（上限は `maxStacks`） |
+| isStackable()                         | `boolean`               | スタック可能かどうかを返す（`maxStacks` > 1 の場合 true）          |
+| isPermanent()                         | `boolean`               | 効果が永続（`duration` == 0）かどうかを返す                        |
+| validate()                            | `ValidationResult`      | プロパティ（スタック数や効果値など）の整合性チェックを行う         |
+| toString()                            | `String`                | 効果内容を文字列として返す（デバッグやログ用）                     |
+
+**BuffCondition**: バフ効果が発動する条件を定義するクラス(**ローテーション管理システムの際に詳細を詰める**)
+
+プロパティ
+
+| プロパティ名 | 型       | 説明                                                     |
+| ------------ | -------- | -------------------------------------------------------- |
+| description  | `String` | 条件の人間向け説明（例：シールド状態）                   |
+| type         | `String` | 条件種別（例：shield, hp_below, skill_used など）        |
+| value        | `Object` | 条件に関連する追加値（例：hp_below=50、skill_used=true） |
+
+メソッド
+
+| メソッド名             | 戻り値の型 | 説明                                              |
+| ---------------------- | ---------- | ------------------------------------------------- |
+| isSatisfied(`State` s) | `boolean`  | 現在の状態 `s` に対してこの条件が満たされるか判定 |
+| toString()             | `String`   | 条件の説明文を返す                                |
 
 ## テーブルテンプレート
 
