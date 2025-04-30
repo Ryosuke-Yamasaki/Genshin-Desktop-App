@@ -902,22 +902,22 @@ $$
 
 聖遺物管理システム
 
-| クラス名             | 内容                                                                           |
-| -------------------- | ------------------------------------------------------------------------------ |
-| Artifact             | 聖遺物 1 個の情報（メインステータス、サブステータスなど）                      |
-| ArtifactInventory    | 保有している聖遺物の一覧管理（登録・編集・削除）                               |
-| ArtifactFilter       | 聖遺物検索・フィルタ条件の設定（例：攻撃力付きのみ、セット効果指定など）       |
-| ArtifactSorter       | 聖遺物の並び替え処理（例：攻撃力順、会心ダメージ順）                           |
-| ArtifactSelector     | フィルタ・ソート条件に基づき、聖遺物を選択する処理                             |
-| ArtifactValidator    | 聖遺物データの入力チェックや整合性チェック                                     |
-| ArtifactRepository   | 聖遺物データの保存・読み込み処理（ファイル、データベースなど）                 |
-| ArtifactDetailViewer | 聖遺物個別詳細を表示するためのクラス（UI 用）                                  |
-| ArtifactListViewer   | 聖遺物一覧を表示するためのクラス（UI 用）                                      |
-| ArtifactEditor       | 聖遺物の情報を編集するためのクラス（UI 用）                                    |
-| ArtifactImporter     | 外部データ（例：スクリーンショット解析結果など）から聖遺物をインポートする処理 |
-| ArtifactExporter     | 聖遺物データを外部ファイルにエクスポートする処理                               |
-| ArtifactManager      | ArtifactInventory・ArtifactFilter・ArtifactSorter などを統括して操作するクラス |
-| ArtifactConstants    | 聖遺物に関する定数管理（例：部位名、メインステータスの種類など）               |
+| クラス名             | 内容                                                                                                               |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Artifact             | 聖遺物 1 個の情報（メインステータス、サブステータスなど）                                                          |
+| ArtifactInventory    | 保有している聖遺物の一覧管理（登録・編集・削除）                                                                   |
+| ArtifactFilter       | 聖遺物検索・フィルタ条件の設定（例：攻撃力付きのみ、セット効果指定など）                                           |
+| ArtifactSorter       | 聖遺物の並び替え処理（例：攻撃力順、会心ダメージ順）                                                               |
+| ArtifactSelector     | フィルタ・ソート条件に基づき、聖遺物を選択する処理                                                                 |
+| ArtifactValidator    | 聖遺物データの入力チェックや整合性チェック                                                                         |
+| ArtifactRepository   | 聖遺物データの保存・読み込み処理（ファイル、データベースなど）                                                     |
+| ArtifactDetailViewer | 聖遺物個別詳細を表示するためのクラス（UI 用）                                                                      |
+| ArtifactListViewer   | 聖遺物一覧を表示するためのクラス（UI 用）                                                                          |
+| ArtifactEditor       | 聖遺物の情報を編集するためのクラス（UI 用）                                                                        |
+| ArtifactImporter     | 外部データ（例：スクリーンショット解析結果など）から聖遺物をインポートする処理                                     |
+| ArtifactExporter     | 聖遺物データを外部ファイルにエクスポートする処理                                                                   |
+| ArtifactManager      | ArtifactInventory・ArtifactFilter・ArtifactSorter などを統括して操作するクラス(ユーザアクションを処理クラスに渡す) |
+| ArtifactConstants    | 聖遺物に関する定数管理（例：部位名、メインステータスの種類など）                                                   |
 
 キャラクターマイセット管理システム
 
@@ -1208,9 +1208,24 @@ $$
 
 **ArtifactSelector**:フィルタ＋ソート後の聖遺物選択
 
+プロパティ
+
+| プロパティ名  | 型               | 説明                                          |
+| ------------- | ---------------- | --------------------------------------------- |
+| filter        | `ArtifactFilter` | 絞り込み条件（部位、サブ OP、セット効果など） |
+| sorter        | `ArtifactSorter` | 並び替え条件（スコア順、会心率順など）        |
+| baseArtifacts | `List<Artifact>` | 選定対象となる元の聖遺物リスト                |
+
 メソッド
 
-- select(`List<Artifact>` artifacts, `ArtifactFilter` filter, `ArtifactSorter` sorter): `List<Artifact>`
+| メソッド名                         | 戻り値の型         | 説明                                                   |
+| ---------------------------------- | ------------------ | ------------------------------------------------------ |
+| select(`List<Artifact>` artifacts) | `List<Artifact>`   | `baseArtifacts` からフィルタとソートを行い、結果を返す |
+| setFilter(`ArtifactFilter` filter) | `void`             | フィルタ条件を設定する                                 |
+| setSorter(`ArtifactSorter` sorter) | `void`             | ソート条件を設定する                                   |
+| validateFilters()                  | `ValidationResult` | フィルタ条件が正しいかを検証し、エラーメッセージを返す |
+| clearFilters()                     | `void`             | 現在設定されているフィルタ条件をリセットする           |
+| clearSorter()                      | `void`             | 現在設定されているソート条件をリセットする             |
 
 **ArtifactValidator**:入力チェック・整合性検証
 
