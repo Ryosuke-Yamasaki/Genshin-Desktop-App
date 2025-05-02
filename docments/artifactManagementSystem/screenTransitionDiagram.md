@@ -1,8 +1,8 @@
-# 遷移図
+# 画面遷移図
 
 ```mermaid
 stateDiagram-v2
-  direction LR
+  direction TB
   [*] --> 聖遺物一覧画面 : 「聖遺物」ボタンを押す
 
   聖遺物一覧画面 --> 聖遺物登録画面 : 「新規登録」ボタンを押す
