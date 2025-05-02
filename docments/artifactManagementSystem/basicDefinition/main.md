@@ -6,39 +6,15 @@
 
 ## 画面設計
 
-### 画面一覧
-
-- 聖遺物一覧表示画面
-- 聖遺物詳細表示画面
-- 聖遺物登録画面（画像から）
-- 聖遺物登録画面（JSON ファイルから）
-- 進行状況表示画面
-- 聖遺物編集画面
-- 聖遺物登録内容確認画面
-- 聖遺物登録完了画面
-- 聖遺物登録キャンセル完了画面
-- 聖遺物編集内容確認画面
-- 聖遺物編集完了画面
-- 聖遺物編集キャンセル完了画面
-- 聖遺物削除確認画面
-- 聖遺物削除完了画面
-- 聖遺物削除キャンセル完了画面
-
-### 画面レイアウト（未定義）
-
-#### ヘッダー
-
-#### メイン
-
-#### サイドバー
-
-### UI 部品（未定義）
-
-### 画面遷移図
-
-[画面遷移図はこちら](screenTransitionDiagram.md)
-
 ## 機能設計
+
+### 機能一覧
+
+- [聖遺物一覧表示](functionalDefinition/artifactList.md)
+- [聖遺物詳細表示](functionalDefinition/artifactDetail.md)
+- [聖遺物登録](functionalDefinition/registerArtifact.md)
+- [聖遺物更新](functionalDefinition/editArtifact.md)
+- [聖遺物削除](functionalDefinition/removeArtifact.md)
 
 ### 入出力項目
 
