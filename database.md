@@ -21,6 +21,7 @@
 | CharacterAscensionStatParams     | キャラクターの突破ステータスを保持する       |
 | CharacterAscensionStatParamTypes | 突破ステータスの種類を保持する               |
 | Actions                          | アクションを保持する                         |
+| ActionTypes                      | アクションの種類を保持する                   |
 | CharacterActionMultipliers       | キャラクターの攻撃アクションの倍率を保持する |
 | ReferenceParams                  | 参照パラメータを保持する                     |
 | Elements                         | 元素力を保持する                             |
@@ -151,10 +152,10 @@
 | ------------- | ------ | :--: | :----: | ---------- |
 | id            | String |      |   ✅   |            |
 | characterId   | String |      |        | Characters |
-| Level         | int    |      |        |            |
+| level         | int    |      |        |            |
 | ascensionRank | int    |      |        |            |
-| attack        | double |      |        |            |
 | hp            | double |      |        |            |
+| attack        | double |      |        |            |
 | defense       | double |      |        |            |
 
 #### CharacterAscensionStatParams
@@ -163,7 +164,6 @@
 | ------------- | ------ | :--: | :----: | -------------------------------- |
 | id            | String |      |   ✅   |                                  |
 | typeId        | String |      |        | CharacterAscensionStatParamTypes |
-| Level         | int    |      |        |                                  |
 | ascensionRank | int    |      |        |                                  |
 | value         | double |      |        |                                  |
 
@@ -177,16 +177,25 @@
 
 #### Actions
 
-| カラム名    | 型     | Null | 主キー | 外部キー   |
-| ----------- | ------ | :--: | :----: | ---------- |
-| id          | String |      |   ✅   |            |
-| characterId | String |  ✅  |        | Characters |
-| jpLabel     | String |      |        |            |
-| enLabel     | String |      |        |            |
-| coolDown    | int    |      |        |            |
-| duration    | int    |      |        |            |
-| castTime    | int    |      |        |            |
-| hitCount    | int    |      |        |            |
+| カラム名    | 型     | Null | 主キー | 外部キー    |
+| ----------- | ------ | :--: | :----: | ----------- |
+| id          | String |      |   ✅   |             |
+| characterId | String |  ✅  |        | Characters  |
+| jpLabel     | String |      |        |             |
+| enLabel     | String |      |        |             |
+| typeId      | String |      |        | ActionTypes |
+| coolDown    | int    |      |        |             |
+| duration    | int    |      |        |             |
+| castTime    | int    |      |        |             |
+| hitCount    | int    |      |        |             |
+
+#### ActionTypes
+
+| カラム名 | 型     | Null | 主キー | 外部キー |
+| -------- | ------ | :--: | :----: | -------- |
+| id       | String |      |   ✅   |          |
+| jpLabel  | String |      |        |          |
+| enLabel  | String |      |        |          |
 
 #### CharacterActionMultipliers
 
@@ -250,7 +259,7 @@
 | id               | String |      |   ✅   |                       |
 | statPropId       | String |      |        | StatProps             |
 | baseAttackTypeId | String |      |        | WeaponBaseAttackTypes |
-| Level            | int    |      |        |                       |
+| level            | int    |      |        |                       |
 | ascensionRank    | int    |      |        |                       |
 
 #### Parties
