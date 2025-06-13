@@ -8,6 +8,11 @@
 - SQLite 3.49.1.0（JDBC 経由）
 - Tess4J 4.3.1（OCR 処理）
 
+## ルール
+
+- DDD
+- DI
+
 ## ユビキタス言語定義
 
 | 用語                              | 説明                                                         |
@@ -46,7 +51,23 @@
 
 ---
 
-## 🧭 コンテキストマップ（Context Map）
+## コンテキスト
+
+- 名称: OCR解析コンテキスト（OcrAnalysisContext）
+- 責務: ゲーム内スクリーンショットから聖遺物情報を抽出可能な形に加工・変換する一連の処理
+- ユースケース:
+  - ユーザーがゲーム内で聖遺物画面のスクリーンショットをアップロード
+  - アップロードされた画像を前処理
+  - OCR を用いて聖遺物エンティティに関するテキストを抽出
+  - OCR 結果の誤認識を補正
+  - OCR 結果を聖遺物エンティティのフィールドごとに分類
+- コンポーネント:
+  - ImagePreprocessor: グレースケール化、抽出項目ごとのトリミング
+  - OcrProcessor: 画像からテキストを抽出
+  - OcrCorrector: OCR 解析でうまく読み取れなかった単語を修正
+  - ArtifactTextClassifier: 補正済みテキストを抽出項目ごとに分類
+
+---
 
 - 名称: 聖遺物登録コンテキスト（ArtifactRegistrationContext）
 - 責務: ユーザーによる聖遺物の登録・バリデーション処理
@@ -55,10 +76,9 @@
   - 聖遺物エンティティの生成
   - 聖遺物エンティティのバリデーションチェック
 - コンポーネント:
-  - ArtifactFactory: OCR 結果を聖遺物エンティティに変換
+  - ArtifactAssembler: OCR 結果を聖遺物エンティティの各値オブジェクトに変換
+  - ArtifactFactory: 各値オブジェクトから聖遺物エンティティに変換
   - ArtifactValidator: ルールに基づき構造・値の妥当性をチェック
-- 入力: OCR 結果（新規）、UI からの手入力（編集）
-- 出力: 聖遺物永続化コンテキスト
 
 ---
 
@@ -69,8 +89,16 @@
 - コンポーネント:
   - ArtifactRepository: Database への CRUD 操作
   - ArtifactEntityMapper: 聖遺物エンティティを DB 用や UI 用へ変形
-- 入力: 聖遺物エンティティ
-- 出力: 聖遺物表示コンテキスト
+
+---
+
+- 名称: 聖遺物検索コンテキスト（ArtifactSearchContext）
+- 責務: Database への読み書き
+- ユースケース:
+  - 聖遺物エンティティの登録・更新・削除・取得
+- コンポーネント:
+  - ArtifactRepository: Database への CRUD 操作
+  - ArtifactEntityMapper: 聖遺物エンティティを DB 用や UI 用へ変形
 
 ---
 
