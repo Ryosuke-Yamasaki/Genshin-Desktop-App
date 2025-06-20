@@ -200,6 +200,7 @@ src
     │       │   └── usecase
     │       ├── config
     │       ├── domain
+    │       │   ├── factory
     │       │   ├── model
     │       │   │   ├── entity
     │       │   │   ├── shared
