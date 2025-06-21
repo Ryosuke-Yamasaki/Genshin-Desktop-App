@@ -196,6 +196,7 @@ src
     │   └── artifact
     │       ├── application
     │       │   ├── converter
+    │       │   ├── model
     │       │   ├── service
     │       │   └── usecase
     │       ├── config
@@ -208,13 +209,13 @@ src
     │       │   ├── repository
     │       │   └── service
     │       ├── infrastructure
-    │       │   ├── ocr
-    │       │   │   ├── converter
-    │       │   │   └── model
+    │       │   ├── converter
+    │       │   ├── model
     │       │   └── persistence
-    │       │       ├── converter
-    │       │       ├── model
-    │       │       └── database
+    │       ├── ocr
+    │       │   ├── converter
+    │       │   ├── model
+    │       │   └── service
     │       └── presentation
     │           ├── controller
     │           ├── event
