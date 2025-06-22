@@ -190,44 +190,42 @@
 
 ## ディレクトリ構成
 
-```text
 src
 └── main
-    ├── java
-    │   └── artifact
-    │       ├── application
-    │       │   ├── converter
-    │       │   ├── model
-    │       │   ├── service
-    │       │   └── usecase
-    │       ├── boot
-    │       ├── domain
-    │       │   ├── factory
-    │       │   ├── model
-    │       │   │   ├── entity
-    │       │   │   ├── shared
-    │       │   │   └── vo
-    │       │   ├── repository
-    │       │   └── service
-    │       ├── infrastructure
-    │       │   ├── converter
-    │       │   ├── model
-    │       │   └── persistence
-    │       ├── ocr
-    │       │   ├── converter
-    │       │   ├── model
-    │       │   └── service
-    │       ├── presentation
-    │       │   ├── controller
-    │       │   ├── converter
-    │       │   ├── event
-    │       │   ├── model
-    │       │   ├── presenter
-    │       │   └── view
-    │       └── util
-    │           ├── config
-    │           └── service
-    └── resources
-        ├── db
-        └── tessdata
-```
+├── java
+│ └── artifact
+│ ├── application
+│ │ ├── converter
+│ │ ├── model
+│ │ ├── service
+│ │ └── usecase
+│ ├── boot
+│ ├── domain
+│ │ ├── factory
+│ │ ├── model
+│ │ │ ├── entity
+│ │ │ ├── shared
+│ │ │ └── vo
+│ │ ├── repository
+│ │ └── service
+│ ├── infrastructure
+│ │ ├── converter
+│ │ ├── model
+│ │ └── persistence
+│ ├── ocr
+│ │ ├── converter
+│ │ ├── model
+│ │ └── service
+│ ├── presentation
+│ │ ├── controller
+│ │ ├── converter
+│ │ ├── event
+│ │ ├── model
+│ │ ├── presenter
+│ │ └── view
+│ └── util
+│ ├── config
+│ └── service
+└── resources
+├── db
+└── tessdata
